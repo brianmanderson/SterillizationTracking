@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SterillizationTracking.Kit_Classes;
 
 namespace SterillizationTracking
 {
@@ -27,7 +28,12 @@ namespace SterillizationTracking
 
         private void Add_Kit_Button_Click(object sender, RoutedEventArgs e)
         {
-            Kit_ComboBox.SelectedItem = 0;
+            if (Convert.ToString(Kit_ComboBox.SelectedItem).Contains("Cylinder"))
+            {
+                Cylinder new_cylinder = new Cylinder();
+                
+            }
+            Kit_ComboBox.SelectedIndex = 0;
             int marginx = 5;
             int marginy = 5;
             for (int i = 0; i < 50; i ++)
@@ -47,7 +53,14 @@ namespace SterillizationTracking
         }
         private void Kit_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (Convert.ToString(Kit_ComboBox.SelectedItem).Contains("Select a kit"))
+            {
+                Add_Kit_Button.IsEnabled = false;
+            }
+            else
+            {
+                Add_Kit_Button.IsEnabled = true;
+            }
         }
     }
 }

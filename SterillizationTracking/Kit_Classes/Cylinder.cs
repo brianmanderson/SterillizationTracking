@@ -8,6 +8,8 @@ namespace SterillizationTracking.Kit_Classes
 {
     class Cylinder : BaseOnePartKit
     {
-        new public int total_uses = 500;
+        new public int total_uses = 5;
+        new public int allowed_steralizations = 3;
+        new public int warning_use = 3;
     }
 }

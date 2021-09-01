@@ -7,24 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
         <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1">
             <StackPanel Margin="23,27,41,88" x:Name="KitStackPanel">
             </StackPanel>
         </ScrollViewer>
 
-
-        <Button x:Name="Add_Kit_Button" Content="Add Kit" HorizontalAlignment="Left" Height="36" Margin="197,361,0,0" VerticalAlignment="Top" Width="137" Click="Add_Kit_Button_Click"/>
-        <ComboBox Name="Kit_ComboBox" HorizontalAlignment="Left" Margin="20,361,0,0" VerticalAlignment="Top" Width="156" Height="36" SelectedIndex="0" SelectionChanged="Kit_ComboBox_SelectionChanged">
-            <ComboBoxItem>Select a kit</ComboBoxItem>
-            <ComboBoxItem>Cylinder</ComboBoxItem>
-            <ComboBoxItem>Cervix Applicator Set</ComboBoxItem>
-            <ComboBoxItem>Needle Kit</ComboBoxItem>
-            <ComboBoxItem>Segmented Cylinder</ComboBoxItem>
-            <ComboBoxItem>Tandem and Ovoid</ComboBoxItem>
-            <ComboBoxItem>Tandem and Ring</ComboBoxItem>
-            <ComboBoxItem>Y Applicator</ComboBoxItem>
+        <Button x:Name="Add_Kit_Button" Content="Add Kit" IsEnabled="False" HorizontalAlignment="Left" Height="36" Margin="197,361,0,0" VerticalAlignment="Top" Width="137" Click="Add_Kit_Button_Click"/>
+        <ComboBox x:Name="Kit_ComboBox" HorizontalAlignment="Left" Margin="20,361,0,0" VerticalAlignment="Top" Width="156" Height="36" SelectionChanged="Kit_ComboBox_SelectionChanged" SelectedIndex="0">
+            <ComboBoxItem Content="Select a kit"/>
+            <ComboBoxItem Content="Cylinder"/>
+            <ComboBoxItem Content="Cervix Applicator Set"/>
+            <ComboBoxItem Content="Needle Kit"/>
+            <ComboBoxItem Content="Segmented Cylinder"/>
+            <ComboBoxItem Content="Tandem and Ovoid"/>
+            <ComboBoxItem Content="Tandem and Ring"/>
+            <ComboBoxItem Content="Y Applicator"/>
         </ComboBox>
-
     </Grid>
 </Window>
