@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SterillizationTracking.Kit_Classes;
 using SterillizationTracking.StackPanelClasses;
+using SterillizationTracking.Views;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -22,7 +23,7 @@ namespace SterillizationTracking
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {

@@ -21,18 +21,20 @@ namespace SterillizationTracking.StackPanelClasses
         public void build_row(BaseOnePartKit new_kit)
         {
             Orientation = Orientation.Horizontal;
-            Label kit_label = new Label();
-            kit_label.Content = new_kit.name;
-            kit_label.BorderThickness = new Thickness(5, 10, 10, 5);
-            Children.Add(kit_label);
+            TextBlock kit_textblock = new TextBlock();
+            kit_textblock.Text = new_kit.name;
+            kit_textblock.Padding = new Thickness(5, 10, 10, 5);
+            Children.Add(kit_textblock);
 
-            Label number_of_uses_label = new Label();
-            number_of_uses_label.Content = $"Number of uses: {new_kit.current_use}";
-            number_of_uses_label.BorderThickness = new Thickness(5, 10, 10, 5);
-            Children.Add(number_of_uses_label);
+            TextBlock number_of_uses_textblock = new TextBlock();
+            number_of_uses_textblock.Text = $"Number of uses: {new_kit.current_use}";
+            number_of_uses_textblock.Padding = new Thickness(5, 10, 10, 5);
+            Children.Add(number_of_uses_textblock);
 
             Label number_of_sterlizations_label = new Label();
-            number_of_sterlizations_label.Content = $"Number of steralizations: {new_kit.current_steralization}";
+            // number_of_sterlizations_label.Content = $"Number of steralizations: {new_kit.current_steralization}";
+            var mybinding = new Binding(new_kit.current_steralization.ToString());
+            number_of_sterlizations_label.SetBinding(Label.ContentProperty, new_kit.current_steralization.ToString());
             number_of_sterlizations_label.BorderThickness = new Thickness(5, 10, 10, 5);
             Children.Add(number_of_sterlizations_label);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using SterillizationTracking.Services;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,13 +9,13 @@ using System.Windows.Controls;
 
 namespace SterillizationTracking.Kit_Classes
 {
-    class BaseOnePartKit
+    class BaseOnePartKit : INotifyPropertyChange
     {
         public int total_uses;
-        public int current_use = 0;
         public int warning_use;
         public int allowed_steralizations;
-        public int current_steralization = 0;
+        public int current_use;
+        public int current_steralization;
         public string status_color;
         public string name;
 
