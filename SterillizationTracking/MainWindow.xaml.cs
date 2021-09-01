@@ -14,17 +14,34 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SterillizationTracking.Kit_Classes;
 using SterillizationTracking.StackPanelClasses;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SterillizationTracking
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Raises this object's PropertyChanged event.
+        /// </summary>
+        /// <param name="propertyName">The property that has a new value.</param>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
         }
 
         private void Add_Kit_Button_Click(object sender, RoutedEventArgs e)
