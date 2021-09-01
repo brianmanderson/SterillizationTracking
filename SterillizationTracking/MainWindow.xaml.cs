@@ -31,6 +31,8 @@ namespace SterillizationTracking
             if (Convert.ToString(Kit_ComboBox.SelectedItem).Contains("Cylinder"))
             {
                 StackPanel new_stack = new StackPanel();
+                Label label = new Label();
+                label
                 Cylinder new_cylinder = new Cylinder();
                 Button new_button = new Button();
                 // new_button.Click += new_cylinder.add_use(1);

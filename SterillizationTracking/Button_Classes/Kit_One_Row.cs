@@ -12,11 +12,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SterillizationTracking.Kit_Classes;
 
 namespace SterillizationTracking.Button_Classes
 {
-    class Kit_One_Row(string name)
+    class Kit_One_Row
     {
-        
+        public void build_row(StackPanel panel, BaseOnePartKit new_kit)
+        {
+            panel.Orientation = Orientation.Horizontal;
+            Label kit_label = new Label();
+            kit_label.Content = new_kit.name;
+            panel.Children.Add(kit_label);
+
+            Label number_of_uses_label = new Label();
+            number_of_uses_label.Content = new_kit.current_use.ToString();
+            panel.Children.Add(number_of_uses_label);
+
+            Label number_of_sterlizations_label = new Label();
+            number_of_sterlizations_label.Content = new_kit.current_steralization.ToString();
+            panel.Children.Add(number_of_sterlizations_label);
+
+            Button add_use = new Button();
+
+        }
     }
 }
