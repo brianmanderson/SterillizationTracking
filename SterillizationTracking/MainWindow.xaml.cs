@@ -30,21 +30,25 @@ namespace SterillizationTracking
         {
             if (Convert.ToString(Kit_ComboBox.SelectedItem).Contains("Cylinder"))
             {
+                StackPanel new_stack = new StackPanel();
                 Cylinder new_cylinder = new Cylinder();
-                
+                Button new_button = new Button();
+                // new_button.Click += new_cylinder.add_use(1);
+
             }
             Kit_ComboBox.SelectedIndex = 0;
             int marginx = 5;
             int marginy = 5;
             for (int i = 0; i < 50; i ++)
             {
-                Button new_label = new Button();
-                new_label.Margin = new Thickness(marginx, marginy, 0, 0);
-                new_label.Content = $"Test_{i}";
-                new_label.HorizontalAlignment = HorizontalAlignment.Left;
-                new_label.VerticalAlignment = VerticalAlignment.Top;
-                new_label.Click += on_click;
-                KitStackPanel.Children.Add(new_label);
+                StackPanel new_stack = new StackPanel();
+                Label new_label2 = new Label();
+                new_label2.Margin = new Thickness(marginx, marginy, 0, 0);
+                new_label2.Content = $"Test_{i}";
+                new_label2.HorizontalAlignment = HorizontalAlignment.Left;
+                new_label2.VerticalAlignment = VerticalAlignment.Top;
+                new_stack.Children.Add(new_label2);
+                KitStackPanel.Children.Add(new_stack);
             }
         }
         private void on_click(object sender, RoutedEventArgs e)
