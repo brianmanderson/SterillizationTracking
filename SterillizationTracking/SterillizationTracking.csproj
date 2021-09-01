@@ -6,4 +6,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Kit_Classes\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+
 </Project>

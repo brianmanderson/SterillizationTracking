@@ -7,7 +7,22 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Add Kit" HorizontalAlignment="Left" Height="36" Margin="169,377,0,0" VerticalAlignment="Top" Width="137" Click="Add_Kit_Button_Click"/>
+        <Grid Margin="23,27,41,88" x:Name="Kit_Grid">
+            <ScrollBar Margin="719,0,0,0">
+
+            </ScrollBar>
+        </Grid>
+        <Button Content="Add Kit" HorizontalAlignment="Left" Height="36" Margin="197,361,0,0" VerticalAlignment="Top" Width="137" Click="Add_Kit_Button_Click"/>
+        <ComboBox Name="Kit_ComboBox" HorizontalAlignment="Left" Margin="20,361,0,0" VerticalAlignment="Top" Width="156" Height="36" SelectedIndex="0" SelectionChanged="Kit_ComboBox_SelectionChanged">
+            <ComboBoxItem>Select a kit</ComboBoxItem>
+            <ComboBoxItem>Cylinder</ComboBoxItem>
+            <ComboBoxItem>Cervix Applicator Set</ComboBoxItem>
+            <ComboBoxItem>Needle Kit</ComboBoxItem>
+            <ComboBoxItem>Segmented Cylinder</ComboBoxItem>
+            <ComboBoxItem>Tandem and Ovoid</ComboBoxItem>
+            <ComboBoxItem>Tandem and Ring</ComboBoxItem>
+            <ComboBoxItem>Y Applicator</ComboBoxItem>
+        </ComboBox>
 
     </Grid>
 </Window>

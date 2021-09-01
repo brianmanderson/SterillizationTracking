@@ -27,6 +27,17 @@ namespace SterillizationTracking
 
         private void Add_Kit_Button_Click(object sender, RoutedEventArgs e)
         {
+            Kit_ComboBox.SelectedItem = 0;
+            for (int i = 0; i < 10; i ++)
+            {
+                Label new_label = new Label();
+                new_label.Content = $"Test_{i}";
+                Kit_Grid.Children.Add(new_label);
+            }
+        }
+
+        private void Kit_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
     }
