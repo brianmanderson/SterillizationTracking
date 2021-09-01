@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,13 @@ namespace SterillizationTracking.Kit_Classes
         public int current_steralization = 0;
         public string status_color;
         public string name;
-        public void add_use(int uses)
+
+        public void add_use(object sender, RoutedEventArgs e)
         {
-            current_use += uses;
+            current_use += 1;
         }
-        public void add_sterilization()
+
+        public void add_sterilization(object sender, RoutedEventArgs e)
         {
             current_steralization += 1;
             current_use = 0;

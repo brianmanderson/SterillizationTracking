@@ -14,27 +14,34 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SterillizationTracking.Kit_Classes;
 
-namespace SterillizationTracking.Button_Classes
+namespace SterillizationTracking.StackPanelClasses
 {
-    class Kit_One_Row
+    class AddKitRow : StackPanel
     {
-        public void build_row(StackPanel panel, BaseOnePartKit new_kit)
+        public void build_row(BaseOnePartKit new_kit)
         {
-            panel.Orientation = Orientation.Horizontal;
+            Orientation = Orientation.Horizontal;
             Label kit_label = new Label();
             kit_label.Content = new_kit.name;
-            panel.Children.Add(kit_label);
+            Children.Add(kit_label);
 
             Label number_of_uses_label = new Label();
             number_of_uses_label.Content = new_kit.current_use.ToString();
-            panel.Children.Add(number_of_uses_label);
+            Children.Add(number_of_uses_label);
 
             Label number_of_sterlizations_label = new Label();
             number_of_sterlizations_label.Content = new_kit.current_steralization.ToString();
-            panel.Children.Add(number_of_sterlizations_label);
+            Children.Add(number_of_sterlizations_label);
 
-            Button add_use = new Button();
+            Button add_use_button = new Button();
+            add_use_button.Click += new_kit.add_use;
+            add_use_button.Content = "Add use";
+            Children.Add(add_use_button);
 
+            Button add_steralization_button = new Button();
+            add_steralization_button.Click += new_kit.add_sterilization;
+            add_steralization_button.Content = "Add steralization";
+            Children.Add(add_steralization_button);
         }
     }
 }
