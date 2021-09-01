@@ -7,12 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid Margin="23,27,41,88" x:Name="Kit_Grid">
-            <ScrollBar Margin="719,0,0,0">
 
-            </ScrollBar>
-        </Grid>
-        <Button Content="Add Kit" HorizontalAlignment="Left" Height="36" Margin="197,361,0,0" VerticalAlignment="Top" Width="137" Click="Add_Kit_Button_Click"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1">
+            <StackPanel Margin="23,27,41,88" x:Name="KitStackPanel">
+            </StackPanel>
+        </ScrollViewer>
+
+
+        <Button x:Name="Add_Kit_Button" Content="Add Kit" HorizontalAlignment="Left" Height="36" Margin="197,361,0,0" VerticalAlignment="Top" Width="137" Click="Add_Kit_Button_Click"/>
         <ComboBox Name="Kit_ComboBox" HorizontalAlignment="Left" Margin="20,361,0,0" VerticalAlignment="Top" Width="156" Height="36" SelectedIndex="0" SelectionChanged="Kit_ComboBox_SelectionChanged">
             <ComboBoxItem>Select a kit</ComboBoxItem>
             <ComboBoxItem>Cylinder</ComboBoxItem>
