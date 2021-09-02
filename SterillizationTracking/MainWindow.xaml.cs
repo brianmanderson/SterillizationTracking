@@ -86,11 +86,9 @@ namespace SterillizationTracking
             if (Convert.ToString(Kit_ComboBox.SelectedItem).Contains("Cylinder"))
             {
                 string number = KitNumber_ComboBox.SelectedItem.ToString();
-                Cylinder new_cylinder = new Cylinder();
-                new_cylinder.Name = "Cylinder";
-                AddKitRow new_row = new AddKitRow(new_cylinder);
+                BaseOnePartKit new_kit = new BaseOnePartKit(name:"Cylinder", kitnumber: 1, currentUse:5);
+                AddKitRow new_row = new AddKitRow(new_kit);
                 KitStackPanel.Children.Add(new_row);
-                // new_button.Click += new_cylinder.add_use(1);
 
             }
             Kit_ComboBox.SelectedIndex = 0;
@@ -103,7 +101,7 @@ namespace SterillizationTracking
                 if (KitNumber_ComboBox != null)
                 {
                     KitNumber_ComboBox.IsEnabled = false;
-                    Kit_Numbers = { "" };
+                    Kit_Numbers = new List<string> { "" };
                 }
                 Add_Kit_Button.IsEnabled = false;
             }
@@ -129,5 +127,7 @@ namespace SterillizationTracking
                 Add_Kit_Button.IsEnabled = true;
             }
         }
+
+
     }
 }
