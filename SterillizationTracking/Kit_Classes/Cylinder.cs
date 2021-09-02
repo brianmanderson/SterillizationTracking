@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace SterillizationTracking.Kit_Classes
 {
-    class Cylinder
+    class Cylinder : BaseOnePartKit
     {
-        BaseOnePartKit cylinder = new BaseOnePartKit { name = "Cylinder", total_uses = 3, warning_use = 3 };
     }
 }

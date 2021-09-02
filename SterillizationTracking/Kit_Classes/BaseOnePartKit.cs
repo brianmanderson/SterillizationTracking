@@ -14,20 +14,15 @@ namespace SterillizationTracking.Kit_Classes
     public class BaseOnePartKit : INotifyPropertyChanged
     {
         private int currentUse = 0;
-        private int currentSteralization = 0;
         private string statusColor = "Green";
+        private string name;
 
-        public string name;
-        public int allowed_steralizations;
         public int total_uses;
         public int warning_use;
 
 
-        public BaseOnePartKit(string name, int allowed_steralizaitons, int warning_use)
+        public BaseOnePartKit() //string name, int allowed_steralizaitons, int warning_use
         {
-            name = name;
-            allowed_steralizaitons = allowed_steralizaitons;
-            warning_use = warning_use;
         }
 
         public int CurrentUse
@@ -39,13 +34,14 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("CurrentUse");
             }
         }
-        public int CurrentSteralization
+
+        public String Name
         {
-            get { return currentSteralization; }
+            get { return name; }
             set
             {
-                currentSteralization = value;
-                OnPropertyChanged("CurrentSteralization");
+                name = value;
+                OnPropertyChanged("Name");
             }
         }
 
@@ -74,13 +70,9 @@ namespace SterillizationTracking.Kit_Classes
         {
             CurrentUse += 1;
         }
-        public void add_steralization(object sender, RoutedEventArgs e)
-        {
-            CurrentSteralization += 1;
-        }
         public void check_status()
         {
-            if ((CurrentUse >= warning_use) && (CurrentSteralization < allowed_steralizations))
+            if ((CurrentUse >= warning_use * 0.75))
             {
                 StatusColor = "Yellow";
             }
