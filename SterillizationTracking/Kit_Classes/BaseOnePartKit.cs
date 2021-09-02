@@ -16,16 +16,16 @@ namespace SterillizationTracking.Kit_Classes
         private int currentUse;
         private string statusColor = "Green";
         private string name;
-        private int kitnumber;
+        private string kitnumber;
 
         public int total_uses;
         public int warning_use;
 
 
-        public BaseOnePartKit(string name, int kitnumber, int currentUse) //string name, int allowed_steralizaitons, int warning_use
+        public BaseOnePartKit(string name, string kitnumber, int currentUse) //string name, int allowed_steralizaitons, int warning_use
         {
             Name = name;
-            KitNumber = kitnumber;
+            KitNumber = $"Kit #: {kitnumber}";
             CurrentUse = currentUse;
         }
 
@@ -39,7 +39,7 @@ namespace SterillizationTracking.Kit_Classes
             }
         }
 
-        public int KitNumber
+        public string KitNumber
         {
             get { return kitnumber; }
             set

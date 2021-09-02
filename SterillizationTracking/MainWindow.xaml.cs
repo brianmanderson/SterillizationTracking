@@ -29,6 +29,9 @@ namespace SterillizationTracking
         private List<string> _kit_numbers = new List<string> { "" };
         private List<string> _kit_names = new List<string> { "Select a kit", "Cylinder", "Cervix Applicator Set", "Needle Kit", "Segmented Cylinder", 
             "Tandem and Ovoid", "Tandem and Ring", "Y Applicator"};
+
+        public string kit_name;
+        public string kit_number;
         public List<string> Kit_Numbers
         {
             get {
@@ -67,10 +70,6 @@ namespace SterillizationTracking
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        /// <summary>
-        /// Raises this object's PropertyChanged event.
-        /// </summary>
-        /// <param name="propertyName">The property that has a new value.</param>
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = this.PropertyChanged;
@@ -83,19 +82,16 @@ namespace SterillizationTracking
 
         private void Add_Kit_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Convert.ToString(Kit_ComboBox.SelectedItem).Contains("Cylinder"))
-            {
-                string number = KitNumber_ComboBox.SelectedItem.ToString();
-                BaseOnePartKit new_kit = new BaseOnePartKit(name:"Cylinder", kitnumber: 1, currentUse:5);
-                AddKitRow new_row = new AddKitRow(new_kit);
-                KitStackPanel.Children.Add(new_row);
-
-            }
+            kit_name = Kit_Names[Kit_ComboBox.SelectedIndex];
+            kit_number = Kit_Numbers[KitNumber_ComboBox.SelectedIndex];
+            BaseOnePartKit new_kit = new BaseOnePartKit(name:kit_name, kitnumber: kit_number, currentUse:5);
+            AddKitRow new_row = new AddKitRow(new_kit);
+            KitStackPanel.Children.Add(new_row);
             Kit_ComboBox.SelectedIndex = 0;
         }
         private void Kit_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string kit_name = Kit_Names[Kit_ComboBox.SelectedIndex];
+            kit_name = Kit_Names[Kit_ComboBox.SelectedIndex];
             if (kit_name.Contains("Select a kit"))
             {
                 if (KitNumber_ComboBox != null)
@@ -109,7 +105,8 @@ namespace SterillizationTracking
             {
                 KitNumber_ComboBox.IsEnabled = true;
                 CheckNumberList number_returner = new CheckNumberList();
-                Kit_Numbers = number_returner.return_list(kit_name);
+                number_returner.return_list(kit_name);
+                Kit_Numbers = number_returner.out_list;
                 KitNumber_ComboBox.SelectedIndex = 0;
             }
         }

@@ -11,7 +11,7 @@ namespace SterillizationTracking.Services
     {
         public string file_path = @"\\ro-ariaimg-v\va_data$\HDR\Kit_Status";
         public List<string> out_list;
-        public List<string> return_list(string kit_name)
+        public void return_list(string kit_name)
         {
             out_list = new List<String> { "Select a number"};
             string kit_directory = Path.Combine(file_path, kit_name);
@@ -28,7 +28,6 @@ namespace SterillizationTracking.Services
                     out_list.Add($"{i}");
                 }
             }
-            return out_list;
         }
 
     }
