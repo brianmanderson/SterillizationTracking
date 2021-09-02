@@ -52,8 +52,7 @@ namespace SterillizationTracking
 
                 Cylinder new_cylinder = new Cylinder();
                 new_cylinder.name = "Cylinder";
-                AddKitRow new_row = new AddKitRow();
-                new_row.build_row(new_cylinder);
+                AddKitRow new_row = new AddKitRow(new_cylinder);
                 KitStackPanel.Children.Add(new_row);
                 // new_button.Click += new_cylinder.add_use(1);
 
