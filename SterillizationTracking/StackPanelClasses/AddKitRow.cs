@@ -21,16 +21,13 @@ namespace SterillizationTracking.StackPanelClasses
         public AddKitRow(BaseOnePartKit new_kit)
         {
             Orientation = Orientation.Horizontal;
-            TextBlock kit_textblock = new TextBlock();
-            kit_textblock.Text = new_kit.name;
-            kit_textblock.Padding = new Thickness(5, 10, 10, 5);
-            Children.Add(kit_textblock);
+            Label kit_label = new Label();
+            kit_label.Content = new_kit.name;
+            Children.Add(kit_label);
 
             TextBlock myText = new TextBlock();
-            NewBaseOnePart myDataObject = new NewBaseOnePart();
             Binding myBinding = new Binding("CurrentUse");
-            myBinding.Source = myDataObject;
-            // Bind the new data source to the myText TextBlock control's Text dependency property.
+            myBinding.Source = new_kit;
             myText.SetBinding(TextBlock.TextProperty, myBinding);
             Children.Add(myText);
 
@@ -45,18 +42,18 @@ namespace SterillizationTracking.StackPanelClasses
             TextBlock number_of_sterlizations_textblock = new TextBlock();
             // number_of_sterlizations_textblock.Text = $"Number of steralizations: {new_kit.current_steralization}";
             // var mybinding = new Binding(new_kit.current_steralization.ToString());
-            number_of_sterlizations_textblock.SetBinding(TextBlock.TextProperty, new_kit.current_steralization_string);
+            // number_of_sterlizations_textblock.SetBinding(TextBlock.TextProperty, new_kit.current_steralization_string);
             number_of_sterlizations_textblock.Padding = new Thickness(5, 10, 10, 5);
             Children.Add(number_of_sterlizations_textblock);
 
             Button add_use_button = new Button();
-            add_use_button.Click += myDataObject.add_use;
+            add_use_button.Click += new_kit.add_use;
             add_use_button.Content = "Add use";
             add_use_button.Padding = new Thickness(10);
             Children.Add(add_use_button);
 
             Button add_steralization_button = new Button();
-            add_steralization_button.Click += new_kit.add_sterilization;
+            add_steralization_button.Click += new_kit.add_steralization;
             add_steralization_button.Content = "Add steralization";
             add_steralization_button.Padding = new Thickness(10);
             Children.Add(add_steralization_button);

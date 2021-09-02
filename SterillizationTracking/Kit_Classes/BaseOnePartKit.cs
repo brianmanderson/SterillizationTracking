@@ -17,13 +17,17 @@ namespace SterillizationTracking.Kit_Classes
         private int currentSteralization = 0;
         private string statusColor = "Green";
 
+        public string name;
         public int allowed_steralizations;
         public int total_uses;
         public int warning_use;
 
 
-        public BaseOnePartKit()
-        { 
+        public BaseOnePartKit(string name, int allowed_steralizaitons, int warning_use)
+        {
+            name = name;
+            allowed_steralizaitons = allowed_steralizaitons;
+            warning_use = warning_use;
         }
 
         public int CurrentUse
