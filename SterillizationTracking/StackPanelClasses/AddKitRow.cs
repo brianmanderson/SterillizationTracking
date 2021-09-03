@@ -18,9 +18,11 @@ namespace SterillizationTracking.StackPanelClasses
 {
     class AddKitRow : StackPanel
     {
-        public Button add_use_button, remove_use_button;
+        public BaseOnePartKit new_kit;
+        public Button add_use_button, remove_use_button, reorder_button;
         public Label current_use_label, kit_label, kit_number_label, override_label, status_label;
         public CheckBox override_checkbox;
+
         public AddKitRow(BaseOnePartKit new_kit)
         {
             Orientation = Orientation.Horizontal;
@@ -60,6 +62,16 @@ namespace SterillizationTracking.StackPanelClasses
             remove_use_button.Padding = new Thickness(10);
             Children.Add(remove_use_button);
 
+            reorder_button = new Button();
+            Binding reorderBinding = new Binding("CanReorder");
+            reorderBinding.Source = new_kit;
+            reorder_button.Click += new_kit.reorder;
+            reorder_button.Click += reordered;
+            reorder_button.Content = "Reorder";
+            reorder_button.Padding = new Thickness(10);
+            reorder_button.SetBinding(Button.IsEnabledProperty, reorderBinding);
+            Children.Add(reorder_button);
+
             override_label = new Label();
             override_label.Content = "Override?";
             override_label.Padding = new Thickness(10);
@@ -86,10 +98,18 @@ namespace SterillizationTracking.StackPanelClasses
             add_use_button.IsEnabled = false;
             CheckBox_Checked(sender, e);
         }
+
         public void disable_remove_use_button(object sender, RoutedEventArgs e)
         {
             remove_use_button.IsEnabled = false;
             CheckBox_Checked(sender, e);
+        }
+
+        public void reordered(object sender, RoutedEventArgs e)
+        {
+            remove_use_button.IsEnabled = true;
+            add_use_button.IsEnabled = true;
+            reorder_button.IsEnabled = false;
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -99,6 +119,7 @@ namespace SterillizationTracking.StackPanelClasses
             {
                 add_use_button.IsEnabled = true;
                 remove_use_button.IsEnabled = true;
+                reorder_button.IsEnabled = true;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,7 @@ namespace SterillizationTracking
         private List<string> _kit_names = new List<string> { "Select a kit", "Cylinder", "Cervix Applicator Set", "Needle Kit", "Segmented Cylinder", 
             "Tandem and Ovoid", "Tandem and Ring", "Y Applicator"};
 
+        public string applicator_directory = @"\\ro-ariaimg-v\va_data$\HDR\Kit_Status";
         public string kit_name;
         public string kit_number;
         public List<string> Kit_Numbers
@@ -58,6 +60,7 @@ namespace SterillizationTracking
         public MainWindow()
         {
             InitializeComponent();
+            Rebuild_From_Files();
             Binding number_binding = new Binding("Kit_Numbers");
             number_binding.Source = this;
             KitNumber_ComboBox.SetBinding(ComboBox.ItemsSourceProperty, number_binding);
@@ -66,7 +69,6 @@ namespace SterillizationTracking
             Kit_Names = _kit_names;
             kit_name_binding.Source = this;
             Kit_ComboBox.SetBinding(ComboBox.ItemsSourceProperty, kit_name_binding);
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -80,14 +82,47 @@ namespace SterillizationTracking
             }
         }
 
+        public void Add_Kit(string kit_name, string kit_number)
+        {
+            BaseOnePartKit new_kit = new BaseOnePartKit(name: kit_name, kitnumber: kit_number);
+            AddKitRow new_row = new AddKitRow(new_kit);
+            KitStackPanel.Children.Add(new_row);
+        }
         private void Add_Kit_Button_Click(object sender, RoutedEventArgs e)
         {
             kit_name = Kit_Names[Kit_ComboBox.SelectedIndex];
             kit_number = Kit_Numbers[KitNumber_ComboBox.SelectedIndex];
-            BaseOnePartKit new_kit = new BaseOnePartKit(name:kit_name, kitnumber: kit_number);
-            AddKitRow new_row = new AddKitRow(new_kit);
-            KitStackPanel.Children.Add(new_row);
+            Add_Kit(kit_name: kit_name, kit_number: kit_number);
             Kit_ComboBox.SelectedIndex = 0;
+        }
+
+        public void Rebuild_From_Files()
+        {
+            string[] applicator_list = Directory.GetDirectories(applicator_directory);
+            string[] kit_list;
+            string actual_kit_number;
+            string directory_kit_number;
+            foreach (string directory_kit_name in applicator_list)
+            {
+                string[] temp_list = directory_kit_name.Split('\\');
+                string applicator_name = temp_list[temp_list.Length - 1];
+
+                string full_applicator_path = System.IO.Path.Combine(applicator_directory, directory_kit_name);
+                kit_list = Directory.GetDirectories(full_applicator_path);
+                if (kit_list.Length > 0)
+                {
+                    foreach (string directory_kit_number_path in kit_list)
+                    {
+                        directory_kit_number = directory_kit_number_path.Split(full_applicator_path)[1];
+                        if (directory_kit_number.Contains("Kit"))
+                        {
+                            actual_kit_number = directory_kit_number.Split(' ')[1];
+                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number);
+                        }
+                    }
+                }
+            }
+
         }
         private void Kit_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
