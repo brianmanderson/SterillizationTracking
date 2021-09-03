@@ -68,6 +68,7 @@ namespace SterillizationTracking.StackPanelClasses
             remove_use_button.Click += disable_remove_use_button;
             remove_use_button.Content = "Remove use";
             remove_use_button.Padding = new Thickness(10);
+            remove_use_button.IsEnabled = false;
             Children.Add(remove_use_button);
 
             reorder_button = new Button();
@@ -130,7 +131,7 @@ namespace SterillizationTracking.StackPanelClasses
 
         public void reordered(object sender, RoutedEventArgs e)
         {
-            remove_use_button.IsEnabled = true;
+            remove_use_button.IsEnabled = false;
             add_use_button.IsEnabled = true;
             reorder_button.IsEnabled = false;
         }
