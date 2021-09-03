@@ -20,12 +20,14 @@ namespace SterillizationTracking.StackPanelClasses
     {
         public BaseOnePartKit new_kit;
         public Button add_use_button, remove_use_button, reorder_button;
-        public Label current_use_label, kit_label, kit_number_label, override_label, status_label;
+        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label;
         public CheckBox override_checkbox;
 
         public AddKitRow(BaseOnePartKit new_kit)
         {
             Orientation = Orientation.Horizontal;
+            Binding colorBinding = new Binding("StatusColor");
+            colorBinding.Source = new_kit;
 
             kit_label = new Label();
             Binding label_binding = new Binding("Name");
@@ -72,6 +74,19 @@ namespace SterillizationTracking.StackPanelClasses
             reorder_button.SetBinding(Button.IsEnabledProperty, reorderBinding);
             Children.Add(reorder_button);
 
+            uses_left_label = new Label();
+            Binding usesleft_binding = new Binding("UsesLeft");
+            usesleft_binding.Source = new_kit;
+            uses_left_label.SetBinding(Label.ContentProperty, usesleft_binding);
+            uses_left_label.Padding = new Thickness(10);
+            Children.Add(uses_left_label);
+
+            status_label = new Label();
+            status_label.Content = "Status";
+            status_label.SetBinding(Label.BackgroundProperty, colorBinding);
+            status_label.Padding = new Thickness(10);
+            Children.Add(status_label);
+
             override_label = new Label();
             override_label.Content = "Override?";
             override_label.Padding = new Thickness(10);
@@ -81,15 +96,6 @@ namespace SterillizationTracking.StackPanelClasses
             override_checkbox.Padding = new Thickness(10);
             override_checkbox.Checked += CheckBox_Checked;
             Children.Add(override_checkbox);
-
-            status_label = new Label();
-            Binding colorBinding = new Binding("StatusColor");
-            status_label.Content = "Status";
-            // status_label.Background = System.Drawing.Color.Green;
-            // status_label.Foreground = System.Drawing.Color.Green;
-            status_label.SetBinding(Label.ContentProperty, colorBinding);
-            status_label.Padding = new Thickness(10);
-            Children.Add(status_label);
 
 
         }

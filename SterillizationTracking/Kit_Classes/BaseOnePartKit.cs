@@ -15,11 +15,12 @@ namespace SterillizationTracking.Kit_Classes
     public class BaseOnePartKit : INotifyPropertyChanged
     {
         private int currentUse;
-        private string statusColor = "Green";
+        private System.Windows.Media.Brush statusColor;
         private string name;
         private string kitnumber;
         private string useFileLocation;
         private bool can_reorder;
+        private int usesLeft;
 
         public int total_uses;
         public int warning_uses;
@@ -40,15 +41,14 @@ namespace SterillizationTracking.Kit_Classes
             CanReorder = false;
             if (name == "Cylinder")
             {
-                total_uses = 10;
-                warning_uses = 5;
+                total_uses = 100;
+                warning_uses = 75;
             }
             else if (name == "Tandem and Ovoid")
             {
                 total_uses = 100;
                 warning_uses = 80;
             }
-            CurrentUse = 0;
             build_read_use_file();
         }
 
@@ -63,6 +63,7 @@ namespace SterillizationTracking.Kit_Classes
             }
             else
             {
+                CurrentUse = 0;
                 string[] info ={ $"Current Use:{0}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}" };
                 if (!Directory.Exists(KitDirectoryPath))
                 {
@@ -71,6 +72,7 @@ namespace SterillizationTracking.Kit_Classes
                 File.WriteAllLines(UseFileLocation, info);
             }
             check_status();
+            UsesLeft = total_uses - CurrentUse;
         }
 
         public void create_reorder_file()
@@ -102,6 +104,16 @@ namespace SterillizationTracking.Kit_Classes
             {
                 currentUse = value;
                 OnPropertyChanged("CurrentUse");
+            }
+        }
+
+        public int UsesLeft
+        {
+            get { return usesLeft; }
+            set
+            {
+                usesLeft = value;
+                OnPropertyChanged("UsesLeft");
             }
         }
 
@@ -145,7 +157,7 @@ namespace SterillizationTracking.Kit_Classes
             }
         }
 
-        public String StatusColor
+        public System.Windows.Media.Brush StatusColor
         {
             get { return statusColor; }
             set
@@ -169,6 +181,7 @@ namespace SterillizationTracking.Kit_Classes
         public void add_use(object sender, RoutedEventArgs e)
         {
             CurrentUse += 1;
+            UsesLeft = total_uses - CurrentUse;
             update_file();
             check_status();
         }
@@ -176,6 +189,7 @@ namespace SterillizationTracking.Kit_Classes
         public void remove_use(object sender, RoutedEventArgs e)
         {
             CurrentUse -= 1;
+            UsesLeft = total_uses - CurrentUse;
             update_file();
             check_status();
         }
@@ -192,17 +206,17 @@ namespace SterillizationTracking.Kit_Classes
         {
             if (CurrentUse >= total_uses)
             {
-                StatusColor = "Red";
+                StatusColor = System.Windows.Media.Brushes.Red;
                 CanReorder = true;
             }
             else if (CurrentUse >= warning_uses * 0.75)
             {
-                StatusColor = "Yellow";
+                StatusColor = System.Windows.Media.Brushes.Yellow;
                 CanReorder = false;
             }
             else
             {
-                StatusColor = "Green";
+                StatusColor = System.Windows.Media.Brushes.Green;
                 CanReorder = false;
             }
         }
