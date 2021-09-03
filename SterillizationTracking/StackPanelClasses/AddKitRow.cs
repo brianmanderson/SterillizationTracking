@@ -20,7 +20,7 @@ namespace SterillizationTracking.StackPanelClasses
     {
         public BaseOnePartKit new_kit;
         public Button add_use_button, remove_use_button, reorder_button;
-        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label;
+        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label, uses_left_text, last_updated;
         public CheckBox override_checkbox;
 
         public AddKitRow(BaseOnePartKit new_kit)
@@ -44,9 +44,15 @@ namespace SterillizationTracking.StackPanelClasses
             Children.Add(kit_number_label);
 
             current_use_label = new Label();
+            current_use_label.Padding = new Thickness(10);
+            current_use_label.Content = "Current use:";
+            Children.Add(current_use_label);
+
+            current_use_label = new Label();
             Binding myBinding = new Binding("CurrentUse");
             myBinding.Source = new_kit;
             current_use_label.SetBinding(Label.ContentProperty, myBinding);
+            current_use_label.SetBinding(Label.BackgroundProperty, colorBinding);
             current_use_label.Padding = new Thickness(10);
             Children.Add(current_use_label);
 
@@ -74,6 +80,11 @@ namespace SterillizationTracking.StackPanelClasses
             reorder_button.SetBinding(Button.IsEnabledProperty, reorderBinding);
             Children.Add(reorder_button);
 
+            uses_left_text = new Label();
+            uses_left_text.Padding = new Thickness(10);
+            uses_left_text.Content = "Uses left:";
+            Children.Add(uses_left_text);
+
             uses_left_label = new Label();
             Binding usesleft_binding = new Binding("UsesLeft");
             usesleft_binding.Source = new_kit;
@@ -97,6 +108,12 @@ namespace SterillizationTracking.StackPanelClasses
             override_checkbox.Checked += CheckBox_Checked;
             Children.Add(override_checkbox);
 
+            last_updated = new Label();
+            Binding last_updated_binding = new Binding("Present");
+            last_updated_binding.Source = new_kit;
+            last_updated.SetBinding(Label.ContentProperty, last_updated_binding);
+            last_updated.Padding = new Thickness(10);
+            Children.Add(last_updated);
 
         }
         public void disable_add_use_button(object sender, RoutedEventArgs e)

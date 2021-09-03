@@ -28,7 +28,9 @@ namespace SterillizationTracking
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private List<string> _kit_numbers = new List<string> { "" };
-        private List<string> _kit_names = new List<string> { "Select a kit", "Cylinder", "Cervix Applicator Set", "Needle Kit", "Segmented Cylinder", 
+        private List<string> _kit_names = new List<string> { "Select an applicator", "Cylinder", "Cervix Applicator Set", "Needle Kit", "Segmented Cylinder", 
+            "Tandem and Ovoid", "Tandem and Ring", "Y Applicator"};
+        private List<string> _filter_kit_names = new List<string> { "All applicators", "Cylinder", "Cervix Applicator Set", "Needle Kit", "Segmented Cylinder",
             "Tandem and Ovoid", "Tandem and Ring", "Y Applicator"};
 
         public string applicator_directory = @"\\ro-ariaimg-v\va_data$\HDR\Kit_Status";
@@ -43,6 +45,18 @@ namespace SterillizationTracking
             {
                 _kit_numbers = value;
                 OnPropertyChanged("Kit_Numbers");
+            }
+        }
+        public List<string> Filter_Kit_Names
+        {
+            get
+            {
+                return _filter_kit_names;
+            }
+            set
+            {
+                _filter_kit_names = value;
+                OnPropertyChanged("Filter_Kit_Names");
             }
         }
         public List<string> Kit_Names
@@ -69,6 +83,11 @@ namespace SterillizationTracking
             Kit_Names = _kit_names;
             kit_name_binding.Source = this;
             Kit_ComboBox.SetBinding(ComboBox.ItemsSourceProperty, kit_name_binding);
+
+            Binding filter_kit_binding = new Binding("Filter_Kit_Names");
+            Filter_Kit_Names = _filter_kit_names;
+            filter_kit_binding.Source = this;
+            Filter_ComboBox.SetBinding(ComboBox.ItemsSourceProperty, filter_kit_binding);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -98,6 +117,7 @@ namespace SterillizationTracking
 
         public void Rebuild_From_Files()
         {
+            KitStackPanel.Children.Clear();
             string[] applicator_list = Directory.GetDirectories(applicator_directory);
             string[] kit_list;
             string actual_kit_number;
@@ -124,10 +144,43 @@ namespace SterillizationTracking
             }
 
         }
+        public void Rebuild_From_Files(string filter_applicator)
+        {
+            KitStackPanel.Children.Clear();
+            string[] applicator_list = Directory.GetDirectories(applicator_directory);
+            string[] kit_list;
+            string actual_kit_number;
+            string directory_kit_number;
+            foreach (string directory_kit_name in applicator_list)
+            {
+                if (!directory_kit_name.Contains(filter_applicator))
+                {
+                    continue;
+                }
+                string[] temp_list = directory_kit_name.Split('\\');
+                string applicator_name = temp_list[temp_list.Length - 1];
+
+                string full_applicator_path = System.IO.Path.Combine(applicator_directory, directory_kit_name);
+                kit_list = Directory.GetDirectories(full_applicator_path);
+                if (kit_list.Length > 0)
+                {
+                    foreach (string directory_kit_number_path in kit_list)
+                    {
+                        directory_kit_number = directory_kit_number_path.Split(full_applicator_path)[1];
+                        if (directory_kit_number.Contains("Kit"))
+                        {
+                            actual_kit_number = directory_kit_number.Split(' ')[1];
+                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number);
+                        }
+                    }
+                }
+            }
+
+        }
         private void Kit_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             kit_name = Kit_Names[Kit_ComboBox.SelectedIndex];
-            if (kit_name.Contains("Select a kit"))
+            if (kit_name.Contains("Select an applicator"))
             {
                 if (KitNumber_ComboBox != null)
                 {
@@ -159,6 +212,18 @@ namespace SterillizationTracking
             }
         }
 
+        private void Filter_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string filter_kit_selection_info = Convert.ToString(Filter_ComboBox.SelectedItem);
+            if (filter_kit_selection_info.Contains("applicators"))
+            {
+                Rebuild_From_Files();
 
+            }
+            else
+            {
+                Rebuild_From_Files(filter_kit_selection_info);
+            }
+        }
     }
 }

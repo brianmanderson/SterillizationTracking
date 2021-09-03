@@ -19,6 +19,7 @@ namespace SterillizationTracking.Kit_Classes
         private string name;
         private string kitnumber;
         private string useFileLocation;
+        private string _present;
         private bool can_reorder;
         private int usesLeft;
 
@@ -28,6 +29,15 @@ namespace SterillizationTracking.Kit_Classes
         public string KitDirectoryPath;
         public string ReorderDirectoryPath;
 
+        public string Present
+        {
+            get { return _present; }
+            set
+            {
+                _present = value;
+                OnPropertyChanged("Present");
+            }
+        }
         public BaseOnePartKit(string name, string kitnumber) //string name, int allowed_steralizaitons, int warning_use
         {
             Name = name;
@@ -41,8 +51,8 @@ namespace SterillizationTracking.Kit_Classes
             CanReorder = false;
             if (name == "Cylinder")
             {
-                total_uses = 100;
-                warning_uses = 75;
+                total_uses = 10;
+                warning_uses = 7;
             }
             else if (name == "Tandem and Ovoid")
             {
@@ -57,14 +67,15 @@ namespace SterillizationTracking.Kit_Classes
             if (File.Exists(UseFileLocation))
             {
                 string[] lines = File.ReadAllLines(UseFileLocation);
-                CurrentUse = Convert.ToInt32(lines[0].Split(':')[1]);
-                total_uses = Convert.ToInt32(lines[1].Split(':')[1]);
-                warning_uses = Convert.ToInt32(lines[2].Split(':')[1]);
+                CurrentUse = Convert.ToInt32(lines[0].Split("Use:")[1]);
+                total_uses = Convert.ToInt32(lines[1].Split("Uses:")[1]);
+                warning_uses = Convert.ToInt32(lines[2].Split("Uses:")[1]);
+                Present = lines[3].Split("updated:")[1];
             }
             else
             {
                 CurrentUse = 0;
-                string[] info ={ $"Current Use:{0}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}" };
+                string[] info ={ $"Current Use:{0}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
                 if (!Directory.Exists(KitDirectoryPath))
                 {
                     Directory.CreateDirectory(KitDirectoryPath);
@@ -83,13 +94,13 @@ namespace SterillizationTracking.Kit_Classes
                 Directory.CreateDirectory(ReorderDirectoryPath);
             }
             DateTime moment = DateTime.Now;
-            string moment_string = moment.ToLongDateString() + " " + moment.ToLongTimeString();
-            string file_path = Path.Combine(ReorderDirectoryPath, moment_string.Replace(":", ".") + ".txt");
+            Present = (moment.ToLongDateString() + " " + moment.ToLongTimeString()).Replace(":", ".");
+            string file_path = Path.Combine(ReorderDirectoryPath, Present.Replace(":", ".") + ".txt");
             File.Create(file_path);
         }
         public void update_file()
         {
-            string[] info = { $"Current Use:{CurrentUse}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}" };
+            string[] info = { $"Current Use:{CurrentUse}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
             if (!Directory.Exists(KitDirectoryPath))
             {
                 Directory.CreateDirectory(KitDirectoryPath);
@@ -180,6 +191,8 @@ namespace SterillizationTracking.Kit_Classes
 
         public void add_use(object sender, RoutedEventArgs e)
         {
+            DateTime moment = DateTime.Now;
+            Present = moment.ToLongDateString() + " " + moment.ToLongTimeString();
             CurrentUse += 1;
             UsesLeft = total_uses - CurrentUse;
             update_file();
@@ -197,6 +210,7 @@ namespace SterillizationTracking.Kit_Classes
         public void reorder(object sender, RoutedEventArgs e)
         {
             CurrentUse = 0;
+            UsesLeft = total_uses - CurrentUse;
             update_file();
             create_reorder_file();
             check_status();

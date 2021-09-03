@@ -20,12 +20,13 @@ namespace SterillizationTracking.Services
                 Directory.CreateDirectory(kit_directory);
             }
             string[] kit_inventory_list = Directory.GetDirectories(kit_directory);
-            for (int i = 1; i < 10; i ++)
+            for (int i = 1; i < 999; i ++)
             {
                 string new_directory = Path.Combine(kit_directory, $"Kit {i}");
                 if (!kit_inventory_list.Contains(new_directory))
                 {
                     out_list.Add($"{i}");
+                    return out_list;
                 }
             }
             return out_list;
