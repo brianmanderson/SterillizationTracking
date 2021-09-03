@@ -19,14 +19,27 @@ namespace SterillizationTracking.Kit_Classes
         private string kitnumber;
 
         public int total_uses;
-        public int warning_use;
+        public int warning_uses;
+        public string file_path = @"\\ro-ariaimg-v\va_data$\HDR\Kit_Status";
 
 
-        public BaseOnePartKit(string name, string kitnumber, int currentUse) //string name, int allowed_steralizaitons, int warning_use
+        public BaseOnePartKit(string name, string kitnumber) //string name, int allowed_steralizaitons, int warning_use
         {
             Name = name;
+            StatusColor = statusColor;
             KitNumber = $"Kit #: {kitnumber}";
-            CurrentUse = currentUse;
+            warning_uses = 80;
+            total_uses = 100;
+            if (name == "Cylinder")
+            {
+                total_uses = 10;
+                warning_uses = 5;
+            }
+            else if (name == "Tandem and Ovoid")
+            {
+                total_uses = 100;
+                warning_uses = 80;
+            }
         }
 
         public int CurrentUse
@@ -38,6 +51,7 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("CurrentUse");
             }
         }
+
 
         public string KitNumber
         {
@@ -83,20 +97,22 @@ namespace SterillizationTracking.Kit_Classes
         public void add_use(object sender, RoutedEventArgs e)
         {
             CurrentUse += 1;
+            check_status();
         }
 
         public void remove_use(object sender, RoutedEventArgs e)
         {
             CurrentUse -= 1;
+            check_status();
         }
 
         public void check_status()
         {
-            if (CurrentUse >= warning_use * 0.75)
+            if (CurrentUse >= warning_uses * 0.75)
             {
                 StatusColor = "Yellow";
             }
-            else if (CurrentUse >= warning_use)
+            else if (CurrentUse >= warning_uses)
             {
                 StatusColor = "Red";
             }

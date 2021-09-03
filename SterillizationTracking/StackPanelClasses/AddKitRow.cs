@@ -19,7 +19,7 @@ namespace SterillizationTracking.StackPanelClasses
     class AddKitRow : StackPanel
     {
         public Button add_use_button, remove_use_button;
-        public Label current_use_label, kit_label, kit_number_label, override_label;
+        public Label current_use_label, kit_label, kit_number_label, override_label, status_label;
         public CheckBox override_checkbox;
         public AddKitRow(BaseOnePartKit new_kit)
         {
@@ -69,6 +69,15 @@ namespace SterillizationTracking.StackPanelClasses
             override_checkbox.Padding = new Thickness(10);
             override_checkbox.Checked += CheckBox_Checked;
             Children.Add(override_checkbox);
+
+            status_label = new Label();
+            Binding colorBinding = new Binding("StatusColor");
+            status_label.Content = "Status";
+            // status_label.Background = System.Drawing.Color.Green;
+            // status_label.Foreground = System.Drawing.Color.Green;
+            status_label.SetBinding(Label.ContentProperty, colorBinding);
+            status_label.Padding = new Thickness(10);
+            Children.Add(status_label);
 
 
         }

@@ -84,7 +84,7 @@ namespace SterillizationTracking
         {
             kit_name = Kit_Names[Kit_ComboBox.SelectedIndex];
             kit_number = Kit_Numbers[KitNumber_ComboBox.SelectedIndex];
-            BaseOnePartKit new_kit = new BaseOnePartKit(name:kit_name, kitnumber: kit_number, currentUse:5);
+            BaseOnePartKit new_kit = new BaseOnePartKit(name:kit_name, kitnumber: kit_number);
             AddKitRow new_row = new AddKitRow(new_kit);
             KitStackPanel.Children.Add(new_row);
             Kit_ComboBox.SelectedIndex = 0;
@@ -105,8 +105,7 @@ namespace SterillizationTracking
             {
                 KitNumber_ComboBox.IsEnabled = true;
                 CheckNumberList number_returner = new CheckNumberList();
-                number_returner.return_list(kit_name);
-                Kit_Numbers = number_returner.out_list;
+                Kit_Numbers = number_returner.return_list(kit_name);
                 KitNumber_ComboBox.SelectedIndex = 0;
             }
         }
