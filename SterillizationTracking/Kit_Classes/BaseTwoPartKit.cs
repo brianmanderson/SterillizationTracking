@@ -23,8 +23,7 @@ namespace SterillizationTracking.Kit_Classes
         private string _present;
         private bool can_reorder_metal;
         private bool can_reorder_plastic;
-        private int usesLeft_metal;
-        private int usesLeft_plastic;
+        private string currentUse_string_metal, currentUse_string_plastic, usesLeft_string_metal, usesLeft_string_plastic;
 
         public int total_uses_metal;
         public int total_uses_plastic;
@@ -52,6 +51,24 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("CurrentUseMetal");
             }
         }
+        public string CurrentUseStringMetal
+        {
+            get { return currentUse_string_metal; }
+            set
+            {
+                currentUse_string_metal = value;
+                OnPropertyChanged("CurrentUseStringMetal");
+            }
+        }
+        public string CurrentUseStringPlastic
+        {
+            get { return currentUse_string_plastic; }
+            set
+            {
+                currentUse_string_plastic = value;
+                OnPropertyChanged("CurrentUseStringPlastic");
+            }
+        }
         public int CurrentUsePlastic
         {
             get { return currentUse_plastic; }
@@ -61,21 +78,21 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("CurrentUsePlastic");
             }
         }
-        public int UsesLeftMetal
+        public string UsesLeftMetal
         {
-            get { return usesLeft_metal; }
+            get { return usesLeft_string_metal; }
             set
             {
-                usesLeft_metal = value;
+                usesLeft_string_metal = value;
                 OnPropertyChanged("UsesLeftMetal");
             }
         }
-        public int UsesLeftPlastic
+        public string UsesLeftPlastic
         {
-            get { return usesLeft_plastic; }
+            get { return usesLeft_string_plastic; }
             set
             {
-                usesLeft_plastic = value;
+                usesLeft_string_plastic = value;
                 OnPropertyChanged("UsesLeftPlastic");
             }
         }
@@ -194,8 +211,10 @@ namespace SterillizationTracking.Kit_Classes
                 File.WriteAllLines(UseFileLocation, info);
             }
             check_status();
-            UsesLeftMetal = total_uses_metal - CurrentUseMetal;
-            UsesLeftPlastic = total_uses_plastic - CurrentUsePlastic;
+            UsesLeftMetal = $"Uses left metal: {total_uses_metal - CurrentUseMetal}";
+            UsesLeftPlastic = $"Uses left plastic: {total_uses_plastic - CurrentUsePlastic}";
+            CurrentUseStringMetal = $"Current use metal: {CurrentUseMetal}";
+            CurrentUseStringPlastic = $"Current use plastic: {CurrentUsePlastic}";
         }
 
         public void create_reorder_file()
@@ -223,7 +242,6 @@ namespace SterillizationTracking.Kit_Classes
         }
 
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string info)
@@ -237,8 +255,10 @@ namespace SterillizationTracking.Kit_Classes
 
         public void update_useage()
         {
-            UsesLeftMetal = total_uses_metal - CurrentUseMetal;
-            UsesLeftPlastic = total_uses_plastic - CurrentUsePlastic;
+            UsesLeftMetal = $"Uses left metal: {total_uses_metal - CurrentUseMetal}";
+            UsesLeftPlastic = $"Uses left plastic: {total_uses_plastic - CurrentUsePlastic}";
+            CurrentUseStringMetal = $"Current use metal: {CurrentUseMetal}";
+            CurrentUseStringPlastic = $"Current use plastic: {CurrentUsePlastic}";
         }
         public void add_use(object sender, RoutedEventArgs e)
         {
@@ -297,17 +317,17 @@ namespace SterillizationTracking.Kit_Classes
             if (CurrentUsePlastic >= total_uses_plastic)
             {
                 StatusColor_Plastic = System.Windows.Media.Brushes.Red;
-                CanReorderMetal = true;
+                CanReorderPlastic = true;
             }
             else if (CurrentUsePlastic >= warning_uses_metal * 0.75)
             {
                 StatusColor_Plastic = System.Windows.Media.Brushes.Yellow;
-                CanReorderMetal = false;
+                CanReorderPlastic = false;
             }
             else
             {
                 StatusColor_Plastic = System.Windows.Media.Brushes.Green;
-                CanReorderMetal = false;
+                CanReorderPlastic = false;
             }
         }
     }

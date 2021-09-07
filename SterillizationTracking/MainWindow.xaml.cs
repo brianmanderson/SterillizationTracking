@@ -103,9 +103,19 @@ namespace SterillizationTracking
 
         public void Add_Kit(string kit_name, string kit_number)
         {
-            BaseOnePartKit new_kit = new BaseOnePartKit(name: kit_name, kitnumber: kit_number);
-            AddKitRow new_row = new AddKitRow(new_kit);
-            KitStackPanel.Children.Add(new_row);
+            if (kit_name.Contains("Tandem and Ring"))
+            {
+                BaseTwoPartKit new_kit = new BaseTwoPartKit(name: kit_name, kitnumber: kit_number);
+                AddTwoKitRow new_row = new AddTwoKitRow(new_kit);
+                KitStackPanel.Children.Add(new_row);
+            }
+            else
+            {
+                BaseOnePartKit new_kit = new BaseOnePartKit(name: kit_name, kitnumber: kit_number);
+                AddKitRow new_row = new AddKitRow(new_kit);
+                KitStackPanel.Children.Add(new_row);
+            }
+
         }
         private void Add_Kit_Button_Click(object sender, RoutedEventArgs e)
         {
