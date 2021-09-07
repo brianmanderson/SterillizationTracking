@@ -16,7 +16,7 @@ namespace SterillizationTracking.Kit_Classes
     {
         private int currentUse_metal;
         private int currentUse_plastic;
-        private System.Windows.Media.Brush statusColor;
+        private System.Windows.Media.Brush statusColor_Metal, statusColor_Plastic;
         private string name;
         private string kitnumber;
         private string useFileLocation;
@@ -124,10 +124,29 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("Name");
             }
         }
+        public System.Windows.Media.Brush StatusColor_Metal
+        {
+            get { return statusColor_Metal; }
+            set
+            {
+                statusColor_Metal = value;
+                OnPropertyChanged("StatusColor_Metal");
+            }
+        }
+        public System.Windows.Media.Brush StatusColor_Plastic
+        {
+            get { return statusColor_Plastic; }
+            set
+            {
+                statusColor_Plastic = value;
+                OnPropertyChanged("StatusColor_Plastic");
+            }
+        }
         public BaseTwoPartKit(string name, string kitnumber) //string name, int allowed_steralizaitons, int warning_use
         {
             Name = name;
-            StatusColor = statusColor;
+            StatusColor_Metal = statusColor_Metal;
+            StatusColor_Plastic = statusColor_Plastic;
             KitNumber = $"Kit #: {kitnumber}";
             KitDirectoryPath = Path.Combine(file_path, name, $"Kit {kitnumber}");
             UseFileLocation = Path.Combine(KitDirectoryPath, "Uses.txt");
@@ -203,15 +222,7 @@ namespace SterillizationTracking.Kit_Classes
             File.WriteAllLines(UseFileLocation, info);
         }
 
-        public System.Windows.Media.Brush StatusColor
-        {
-            get { return statusColor; }
-            set
-            {
-                statusColor = value;
-                OnPropertyChanged("StatusColor");
-            }
-        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -270,32 +281,32 @@ namespace SterillizationTracking.Kit_Classes
         {
             if (CurrentUseMetal >= total_uses_metal)
             {
-                StatusColor = System.Windows.Media.Brushes.Red;
+                StatusColor_Metal = System.Windows.Media.Brushes.Red;
                 CanReorderMetal = true;
             }
             else if (CurrentUseMetal >= warning_uses_metal * 0.75)
             {
-                StatusColor = System.Windows.Media.Brushes.Yellow;
+                StatusColor_Metal = System.Windows.Media.Brushes.Yellow;
                 CanReorderMetal = false;
             }
             else
             {
-                StatusColor = System.Windows.Media.Brushes.Green;
+                StatusColor_Metal = System.Windows.Media.Brushes.Green;
                 CanReorderMetal = false;
             }
             if (CurrentUsePlastic >= total_uses_plastic)
             {
-                StatusColor = System.Windows.Media.Brushes.Red;
+                StatusColor_Plastic = System.Windows.Media.Brushes.Red;
                 CanReorderMetal = true;
             }
             else if (CurrentUsePlastic >= warning_uses_metal * 0.75)
             {
-                StatusColor = System.Windows.Media.Brushes.Yellow;
+                StatusColor_Plastic = System.Windows.Media.Brushes.Yellow;
                 CanReorderMetal = false;
             }
             else
             {
-                StatusColor = System.Windows.Media.Brushes.Green;
+                StatusColor_Plastic = System.Windows.Media.Brushes.Green;
                 CanReorderMetal = false;
             }
         }
