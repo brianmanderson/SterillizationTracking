@@ -69,9 +69,12 @@ namespace SterillizationTracking.StackPanelClasses
             current_use_stackpanel.Children.Add(current_use_plastic_label);
             Children.Add(current_use_stackpanel);
 
+            Binding canAddBinding = new Binding("CanAdd");
+            canAddBinding.Source = new_kit;
             add_use_button = new Button();
             add_use_button.Click += new_kit.add_use;
             add_use_button.Click += disable_add_use_button;
+            add_use_button.SetBinding(Button.IsEnabledProperty, canAddBinding);
             add_use_button.Content = "Add use";
             add_use_button.Padding = new Thickness(10);
             Children.Add(add_use_button);
@@ -176,8 +179,6 @@ namespace SterillizationTracking.StackPanelClasses
         {
             remove_use_button.IsEnabled = false;
             add_use_button.IsEnabled = true;
-            reorder_metal_button.IsEnabled = false;
-            reorder_plastic_button.IsEnabled = false;
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)

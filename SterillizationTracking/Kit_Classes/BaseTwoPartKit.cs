@@ -21,7 +21,7 @@ namespace SterillizationTracking.Kit_Classes
         private string kitnumber;
         private string useFileLocation;
         private string _present;
-        private bool can_reorder_metal;
+        private bool can_reorder_metal, canAdd;
         private bool can_reorder_plastic;
         private string currentUse_string_metal, currentUse_string_plastic, usesLeft_string_metal, usesLeft_string_plastic;
 
@@ -105,6 +105,15 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("CanReorderMetal");
             }
         }
+        public bool CanAdd
+        {
+            get { return canAdd; }
+            set
+            {
+                canAdd = value;
+                OnPropertyChanged("CanAdd");
+            }
+        }
         public bool CanReorderPlastic
         {
             get { return can_reorder_plastic; }
@@ -174,6 +183,7 @@ namespace SterillizationTracking.Kit_Classes
             warning_uses_plastic = 80;
             CanReorderMetal = false;
             CanReorderPlastic = false;
+            CanAdd = true;
             build_read_use_file();
         }
 
@@ -208,6 +218,11 @@ namespace SterillizationTracking.Kit_Classes
             UsesLeftPlastic = $"Uses left plastic: {total_uses_plastic - CurrentUsePlastic}";
             CurrentUseStringMetal = $"Current use metal: {CurrentUseMetal}";
             CurrentUseStringPlastic = $"Current use plastic: {CurrentUsePlastic}";
+            CanAdd = true;
+            if ((total_uses_metal - CurrentUseMetal == 0) || (total_uses_plastic - CurrentUsePlastic == 0))
+            {
+                CanAdd = false;
+            }
         }
 
         public void create_reorder_file()
