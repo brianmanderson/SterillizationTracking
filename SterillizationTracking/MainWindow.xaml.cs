@@ -103,7 +103,7 @@ namespace SterillizationTracking
 
         public void Add_Kit(string kit_name, string kit_number)
         {
-            if (kit_name.Contains("Tandem and Ring"))
+            if (kit_name.Contains("Tandem and Ring") || kit_name.Contains("Y Applicator"))
             {
                 BaseTwoPartKit new_kit = new BaseTwoPartKit(name: kit_name, kitnumber: kit_number);
                 AddTwoKitRow new_row = new AddTwoKitRow(new_kit);

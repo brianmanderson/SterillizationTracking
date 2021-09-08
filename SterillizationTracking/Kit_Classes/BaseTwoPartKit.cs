@@ -168,19 +168,12 @@ namespace SterillizationTracking.Kit_Classes
             KitDirectoryPath = Path.Combine(file_path, name, $"Kit {kitnumber}");
             UseFileLocation = Path.Combine(KitDirectoryPath, "Uses.txt");
 
-            warning_uses_metal = 80;
-            warning_uses_plastic = 80;
-            total_uses_metal = 100;
+            total_uses_metal = 500;
             total_uses_plastic = 100;
+            warning_uses_metal = 450;
+            warning_uses_plastic = 80;
             CanReorderMetal = false;
             CanReorderPlastic = false;
-            if (name == "Tandem and Ring")
-            {
-                total_uses_metal = 10;
-                total_uses_plastic = 10;
-                warning_uses_metal = 7;
-                warning_uses_plastic = 7;
-            }
             build_read_use_file();
         }
 
@@ -319,7 +312,7 @@ namespace SterillizationTracking.Kit_Classes
                 StatusColor_Plastic = System.Windows.Media.Brushes.Red;
                 CanReorderPlastic = true;
             }
-            else if (CurrentUsePlastic >= warning_uses_metal * 0.75)
+            else if (CurrentUsePlastic >= warning_uses_plastic * 0.75)
             {
                 StatusColor_Plastic = System.Windows.Media.Brushes.Yellow;
                 CanReorderPlastic = false;

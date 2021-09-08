@@ -70,13 +70,28 @@ namespace SterillizationTracking.Kit_Classes
             CanReorder = false;
             if (name == "Cylinder")
             {
-                total_uses = 10;
-                warning_uses = 7;
+                total_uses = 500;
+                warning_uses = 450;
             }
             else if (name == "Tandem and Ovoid")
             {
                 total_uses = 100;
                 warning_uses = 80;
+            }
+            else if (name == "Needle Kit")
+            {
+                total_uses = 25;
+                warning_uses = 18;
+            }
+            else if (name == "Segmented Cylinder")
+            {
+                total_uses = 500;
+                warning_uses = 450;
+            }
+            else if (name == "Cervix Applicator Set")
+            {
+                total_uses = 500;
+                warning_uses = 450;
             }
             build_read_use_file();
         }
