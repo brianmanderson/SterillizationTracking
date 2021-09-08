@@ -178,7 +178,6 @@ namespace SterillizationTracking.StackPanelClasses
         public void reordered(object sender, RoutedEventArgs e)
         {
             remove_use_button.IsEnabled = false;
-            add_use_button.IsEnabled = true;
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
