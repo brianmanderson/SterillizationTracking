@@ -21,7 +21,7 @@ namespace SterillizationTracking.Kit_Classes
         private string kitnumber;
         private string useFileLocation;
         private string _present;
-        private bool can_reorder;
+        private bool can_reorder, canAdd;
         private int usesLeft;
 
         public int total_uses;
@@ -55,6 +55,15 @@ namespace SterillizationTracking.Kit_Classes
             {
                 _present = value;
                 OnPropertyChanged("Present");
+            }
+        }
+        public bool CanAdd
+        {
+            get { return canAdd; }
+            set
+            {
+                canAdd = value;
+                OnPropertyChanged("CanAdd");
             }
         }
         public BaseOnePartKit(string name, string kitnumber) //string name, int allowed_steralizaitons, int warning_use
@@ -93,6 +102,7 @@ namespace SterillizationTracking.Kit_Classes
                 total_uses = 500;
                 warning_uses = 450;
             }
+            CanAdd = true;
             build_read_use_file();
         }
 
@@ -120,6 +130,11 @@ namespace SterillizationTracking.Kit_Classes
             CurrentUseString = $"Current use: {CurrentUse}";
             UsesLeft = total_uses - CurrentUse;
             UsesLeftString = $"Uses left: {UsesLeft}";
+            CanAdd = true;
+            if (total_uses - CurrentUse == 0)
+            {
+                CanAdd = false;
+            }
         }
 
         public void create_reorder_file()
