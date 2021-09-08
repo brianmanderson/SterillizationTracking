@@ -15,6 +15,7 @@ namespace SterillizationTracking.Kit_Classes
     public class BaseTwoPartKit : INotifyPropertyChanged
     {
         private int currentUse_metal;
+        private List<string> usageDates = new List<string>();
         private int currentUse_plastic;
         private System.Windows.Media.Brush statusColor_Metal, statusColor_Plastic;
         private string name;
@@ -32,6 +33,19 @@ namespace SterillizationTracking.Kit_Classes
         public string file_path = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";
         public string KitDirectoryPath;
         public string ReorderDirectoryPath;
+
+        public List<string> UsageDates
+        {
+            get
+            {
+                return usageDates;
+            }
+            set
+            {
+                usageDates = value;
+                OnPropertyChanged("UsageDates");
+            }
+        }
 
         public string Present
         {
@@ -184,6 +198,7 @@ namespace SterillizationTracking.Kit_Classes
             CanReorderMetal = false;
             CanReorderPlastic = false;
             CanAdd = true;
+            UsageDates = new List<string>();
             build_read_use_file();
         }
 
@@ -191,7 +206,7 @@ namespace SterillizationTracking.Kit_Classes
         {
             if (File.Exists(UseFileLocation))
             {
-                string[] lines = File.ReadAllLines(UseFileLocation);
+                List<string> lines = File.ReadAllLines(UseFileLocation).ToList();
                 CurrentUseMetal = Convert.ToInt32(lines[0].Split("Current Use_Metal:")[1]);
                 CurrentUsePlastic = Convert.ToInt32(lines[1].Split("Current Use_Plastic:")[1]);
                 total_uses_metal = Convert.ToInt32(lines[2].Split("Total Uses_Metal:")[1]);
@@ -199,6 +214,14 @@ namespace SterillizationTracking.Kit_Classes
                 warning_uses_metal = Convert.ToInt32(lines[4].Split("Warning Uses_Metal:")[1]);
                 warning_uses_plastic = Convert.ToInt32(lines[5].Split("Warning Uses_Plastic:")[1]);
                 Present = lines[6].Split("updated:")[1];
+                if (lines.Count > 7)
+                {
+                    UsageDates = lines.GetRange(7, lines.Count - 7);
+                }
+                else
+                {
+                    UsageDates = new List<string>();
+                }
             }
             else
             {
@@ -239,9 +262,10 @@ namespace SterillizationTracking.Kit_Classes
         }
         public void update_file()
         {
-            string[] info = { $"Current Use_Metal:{CurrentUseMetal}", $"Current Use_Plastic:{CurrentUsePlastic}", $"Total Uses_Metal:{total_uses_metal}",
+            List<string> info = new List<string>() { $"Current Use_Metal:{CurrentUseMetal}", $"Current Use_Plastic:{CurrentUsePlastic}", $"Total Uses_Metal:{total_uses_metal}",
                     $"Total Uses_Plastic:{total_uses_plastic}", $"Warning Uses_Metal:{warning_uses_metal}", $"Warning Uses_Plastic:{warning_uses_plastic}",
                     $"Last updated:{Present}" };
+            info.AddRange(UsageDates);
             if (!Directory.Exists(KitDirectoryPath))
             {
                 Directory.CreateDirectory(KitDirectoryPath);
@@ -274,6 +298,7 @@ namespace SterillizationTracking.Kit_Classes
             Present = moment.ToLongDateString() + " " + moment.ToLongTimeString();
             CurrentUseMetal += 1;
             CurrentUsePlastic += 1;
+            UsageDates.Add($"Metal use: {CurrentUseMetal}, Plastic use: {CurrentUsePlastic} @: {Present}");
             update_useage();
             update_file();
             check_status();
@@ -283,6 +308,7 @@ namespace SterillizationTracking.Kit_Classes
         {
             CurrentUseMetal -= 1;
             CurrentUsePlastic -= 1;
+            UsageDates.RemoveAt(UsageDates.Count - 1);
             update_useage();
             update_file();
             check_status();
