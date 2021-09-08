@@ -87,7 +87,7 @@ namespace SterillizationTracking
             Binding filter_kit_binding = new Binding("Filter_Kit_Names");
             Filter_Kit_Names = _filter_kit_names;
             filter_kit_binding.Source = this;
-            Filter_ComboBox.SetBinding(ComboBox.ItemsSourceProperty, filter_kit_binding);
+            FilterNameComboBox.SetBinding(ComboBox.ItemsSourceProperty, filter_kit_binding);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -163,7 +163,8 @@ namespace SterillizationTracking
             string directory_kit_number;
             foreach (string directory_kit_name in applicator_list)
             {
-                if (!directory_kit_name.Contains(filter_applicator))
+                string actual_kit_name = directory_kit_name.Split(applicator_directory + '\\')[1];
+                if (actual_kit_name != filter_applicator)
                 {
                     continue;
                 }
@@ -222,9 +223,9 @@ namespace SterillizationTracking
             }
         }
 
-        private void Filter_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void FilterNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string filter_kit_selection_info = Convert.ToString(Filter_ComboBox.SelectedItem);
+            string filter_kit_selection_info = Convert.ToString(FilterNameComboBox.SelectedItem);
             if (filter_kit_selection_info.Contains("applicators"))
             {
                 Rebuild_From_Files();

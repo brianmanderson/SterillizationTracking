@@ -19,7 +19,7 @@
         <ComboBox x:Name="KitNumber_ComboBox" HorizontalAlignment="Left" Margin="214,28,0,0" VerticalAlignment="Top" Width="141" Height="36"
                   SelectionChanged="KitNumber_ComboBox_SelectionChanged" IsEnabled="False">
         </ComboBox>
-        <ComboBox x:Name="Filter_ComboBox" Margin="533,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" Height="36"
-                  SelectionChanged="Filter_ComboBox_SelectionChanged" IsEnabled="True" SelectedIndex="0"/>
+        <ComboBox x:Name="FilterNameComboBox" Margin="533,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" Height="36"
+                  SelectionChanged="FilterNameComboBox_SelectionChanged" IsEnabled="True" SelectedIndex="0"/>
     </Grid>
 </Window>

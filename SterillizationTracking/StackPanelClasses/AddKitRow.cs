@@ -30,6 +30,7 @@ namespace SterillizationTracking.StackPanelClasses
             colorBinding.Source = new_kit;
 
             kit_label = new Label();
+            kit_label.Width = 150;
             Binding label_binding = new Binding("Name");
             label_binding.Source = new_kit;
             kit_label.SetBinding(Label.ContentProperty, label_binding);
@@ -44,12 +45,8 @@ namespace SterillizationTracking.StackPanelClasses
             Children.Add(kit_number_label);
 
             current_use_label = new Label();
-            current_use_label.Padding = new Thickness(10);
-            current_use_label.Content = "Current use:";
-            Children.Add(current_use_label);
-
-            current_use_label = new Label();
-            Binding myBinding = new Binding("CurrentUse");
+            current_use_label.Width = 150;
+            Binding myBinding = new Binding("CurrentUseString");
             myBinding.Source = new_kit;
             current_use_label.SetBinding(Label.ContentProperty, myBinding);
             current_use_label.SetBinding(Label.BackgroundProperty, colorBinding);
@@ -72,6 +69,7 @@ namespace SterillizationTracking.StackPanelClasses
             Children.Add(remove_use_button);
 
             reorder_button = new Button();
+            reorder_button.Width = 100;
             Binding reorderBinding = new Binding("CanReorder");
             reorderBinding.Source = new_kit;
             reorder_button.Click += new_kit.reorder;
@@ -81,13 +79,8 @@ namespace SterillizationTracking.StackPanelClasses
             reorder_button.SetBinding(Button.IsEnabledProperty, reorderBinding);
             Children.Add(reorder_button);
 
-            uses_left_text = new Label();
-            uses_left_text.Padding = new Thickness(10);
-            uses_left_text.Content = "Uses left:";
-            Children.Add(uses_left_text);
-
             uses_left_label = new Label();
-            Binding usesleft_binding = new Binding("UsesLeft");
+            Binding usesleft_binding = new Binding("UsesLeftString");
             usesleft_binding.Source = new_kit;
             uses_left_label.SetBinding(Label.ContentProperty, usesleft_binding);
             uses_left_label.Padding = new Thickness(10);

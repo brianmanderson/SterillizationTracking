@@ -33,6 +33,7 @@ namespace SterillizationTracking.StackPanelClasses
             colorBinding_plastic.Source = new_kit;
 
             kit_label = new Label();
+            kit_label.Width = 150;
             Binding label_binding = new Binding("Name");
             label_binding.Source = new_kit;
             kit_label.SetBinding(Label.ContentProperty, label_binding);
@@ -50,6 +51,7 @@ namespace SterillizationTracking.StackPanelClasses
             current_use_stackpanel.Orientation = Orientation.Vertical;
 
             current_use_metal_label = new Label();
+            current_use_metal_label.Width = 150;
             Binding current_use_metal_binding = new Binding("CurrentUseStringMetal");
             current_use_metal_binding.Source = new_kit;
             current_use_metal_label.SetBinding(Label.ContentProperty, current_use_metal_binding);
@@ -58,6 +60,7 @@ namespace SterillizationTracking.StackPanelClasses
             current_use_stackpanel.Children.Add(current_use_metal_label);
 
             current_use_plastic_label = new Label();
+            current_use_plastic_label.Width = 150;
             Binding current_use_plastic_binding = new Binding("CurrentUseStringPlastic");
             current_use_plastic_binding.Source = new_kit;
             current_use_plastic_label.SetBinding(Label.ContentProperty, current_use_plastic_binding);
@@ -85,6 +88,7 @@ namespace SterillizationTracking.StackPanelClasses
             reorder_stack_panel.Orientation = Orientation.Vertical;
 
             reorder_metal_button = new Button();
+            reorder_metal_button.Width = 100;
             Binding reordermetalBinding = new Binding("CanReorderMetal");
             reordermetalBinding.Source = new_kit;
             reorder_metal_button.Click += new_kit.reorder_metal;
@@ -95,6 +99,7 @@ namespace SterillizationTracking.StackPanelClasses
             reorder_stack_panel.Children.Add(reorder_metal_button);
 
             reorder_plastic_button = new Button();
+            reorder_plastic_button.Width = 100;
             Binding reorderplasticBinding = new Binding("CanReorderPlastic");
             reorderplasticBinding.Source = new_kit;
             reorder_plastic_button.Click += new_kit.reorder_plastic;

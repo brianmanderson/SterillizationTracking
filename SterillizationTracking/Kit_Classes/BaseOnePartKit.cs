@@ -15,6 +15,7 @@ namespace SterillizationTracking.Kit_Classes
     public class BaseOnePartKit : INotifyPropertyChanged
     {
         private int currentUse;
+        private string currentUse_string, usesLeft_string;
         private System.Windows.Media.Brush statusColor;
         private string name;
         private string kitnumber;
@@ -29,6 +30,24 @@ namespace SterillizationTracking.Kit_Classes
         public string KitDirectoryPath;
         public string ReorderDirectoryPath;
 
+        public string CurrentUseString
+        {
+            get { return currentUse_string; }
+            set
+            {
+                currentUse_string = value;
+                OnPropertyChanged("CurrentUseString");
+            }
+        }
+        public string UsesLeftString
+        {
+            get { return usesLeft_string; }
+            set
+            {
+                usesLeft_string = value;
+                OnPropertyChanged("UsesLeftString");
+            }
+        }
         public string Present
         {
             get { return _present; }
@@ -83,7 +102,9 @@ namespace SterillizationTracking.Kit_Classes
                 File.WriteAllLines(UseFileLocation, info);
             }
             check_status();
+            CurrentUseString = $"Current use: {CurrentUse}";
             UsesLeft = total_uses - CurrentUse;
+            UsesLeftString = $"Uses left: {UsesLeft}";
         }
 
         public void create_reorder_file()
@@ -194,7 +215,9 @@ namespace SterillizationTracking.Kit_Classes
             DateTime moment = DateTime.Now;
             Present = moment.ToLongDateString() + " " + moment.ToLongTimeString();
             CurrentUse += 1;
+            CurrentUseString = $"Current use: {CurrentUse}";
             UsesLeft = total_uses - CurrentUse;
+            UsesLeftString = $"Uses left: {UsesLeft}";
             update_file();
             check_status();
         }
@@ -202,7 +225,9 @@ namespace SterillizationTracking.Kit_Classes
         public void remove_use(object sender, RoutedEventArgs e)
         {
             CurrentUse -= 1;
+            CurrentUseString = $"Current use: {CurrentUse}";
             UsesLeft = total_uses - CurrentUse;
+            UsesLeftString = $"Uses left: {UsesLeft}";
             update_file();
             check_status();
         }
@@ -210,7 +235,9 @@ namespace SterillizationTracking.Kit_Classes
         public void reorder(object sender, RoutedEventArgs e)
         {
             CurrentUse = 0;
+            CurrentUseString = $"Current use: {CurrentUse}";
             UsesLeft = total_uses - CurrentUse;
+            UsesLeftString = $"Uses left: {UsesLeft}";
             update_file();
             create_reorder_file();
             check_status();
