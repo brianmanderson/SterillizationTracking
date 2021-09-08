@@ -29,7 +29,7 @@ namespace SterillizationTracking.Kit_Classes
         public int total_uses_plastic;
         public int warning_uses_metal;
         public int warning_uses_plastic;
-        public string file_path = @"\\ro-ariaimg-v\va_data$\HDR\Kit_Status";
+        public string file_path = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";
         public string KitDirectoryPath;
         public string ReorderDirectoryPath;
 

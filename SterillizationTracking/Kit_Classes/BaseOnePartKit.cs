@@ -15,6 +15,7 @@ namespace SterillizationTracking.Kit_Classes
     public class BaseOnePartKit : INotifyPropertyChanged
     {
         private int currentUse;
+        private List<string> usageDates = new List<string>();
         private string currentUse_string, usesLeft_string;
         private System.Windows.Media.Brush statusColor;
         private string name;
@@ -26,10 +27,22 @@ namespace SterillizationTracking.Kit_Classes
 
         public int total_uses;
         public int warning_uses;
-        public string file_path = @"\\ro-ariaimg-v\va_data$\HDR\Kit_Status";
+        public string file_path = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";
         public string KitDirectoryPath;
         public string ReorderDirectoryPath;
 
+        public List<string> UsageDates
+        {
+            get
+            {
+                return usageDates;
+            }
+            set
+            {
+                usageDates = value;
+                OnPropertyChanged("UsageDates");
+            }
+        }
         public string CurrentUseString
         {
             get { return currentUse_string; }
@@ -103,6 +116,7 @@ namespace SterillizationTracking.Kit_Classes
                 warning_uses = 450;
             }
             CanAdd = true;
+            UsageDates = new List<string>();
             build_read_use_file();
         }
 
@@ -110,11 +124,20 @@ namespace SterillizationTracking.Kit_Classes
         {
             if (File.Exists(UseFileLocation))
             {
-                string[] lines = File.ReadAllLines(UseFileLocation);
+                List<string> lines = File.ReadAllLines(UseFileLocation).ToList();
                 CurrentUse = Convert.ToInt32(lines[0].Split("Use:")[1]);
                 total_uses = Convert.ToInt32(lines[1].Split("Uses:")[1]);
                 warning_uses = Convert.ToInt32(lines[2].Split("Uses:")[1]);
                 Present = lines[3].Split("updated:")[1];
+                if (lines.Count > 4)
+                {
+                    UsageDates = lines.GetRange(4, lines.Count - 4);
+                }
+                else
+                {
+                    UsageDates = new List<string>();
+                }
+
             }
             else
             {
@@ -151,7 +174,8 @@ namespace SterillizationTracking.Kit_Classes
         }
         public void update_file()
         {
-            string[] info = { $"Current Use:{CurrentUse}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
+            List<string> info = new List<string>() { $"Current Use:{CurrentUse}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
+            info.AddRange(UsageDates);
             if (!Directory.Exists(KitDirectoryPath))
             {
                 Directory.CreateDirectory(KitDirectoryPath);
@@ -248,6 +272,7 @@ namespace SterillizationTracking.Kit_Classes
             CurrentUseString = $"Current use: {CurrentUse}";
             UsesLeft = total_uses - CurrentUse;
             UsesLeftString = $"Uses left: {UsesLeft}";
+            UsageDates.Add($"{CurrentUse}: {Present}");
             update_file();
             check_status();
         }
@@ -258,6 +283,7 @@ namespace SterillizationTracking.Kit_Classes
             CurrentUseString = $"Current use: {CurrentUse}";
             UsesLeft = total_uses - CurrentUse;
             UsesLeftString = $"Uses left: {UsesLeft}";
+            UsageDates.RemoveAt(UsageDates.Count - 1);
             update_file();
             check_status();
         }
