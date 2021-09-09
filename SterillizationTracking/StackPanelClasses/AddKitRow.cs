@@ -18,9 +18,8 @@ namespace SterillizationTracking.StackPanelClasses
 {
     class AddKitRow : StackPanel
     {
-        public BaseOnePartKit new_kit;
         public Button add_use_button, remove_use_button, reorder_button;
-        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label, uses_left_text, last_updated;
+        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label, last_updated;
         public CheckBox override_checkbox;
 
         public AddKitRow(BaseOnePartKit new_kit)
