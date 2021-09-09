@@ -16,7 +16,6 @@ namespace SterillizationTracking.Kit_Classes
     {
         private int currentUse;
         private List<string> usageDates = new List<string>();
-        private List<string> usageSinceReorder = new List<string>();
         private string currentUse_string, usesLeft_string;
         private System.Windows.Media.Brush statusColor;
         private string name;
@@ -42,18 +41,6 @@ namespace SterillizationTracking.Kit_Classes
             {
                 usageDates = value;
                 OnPropertyChanged("UsageDates");
-            }
-        }
-        public List<string> UsageSinceReorder
-        {
-            get
-            {
-                return usageSinceReorder;
-            }
-            set
-            {
-                usageSinceReorder = value;
-                OnPropertyChanged("UsageSinceReorder");
             }
         }
         public string CurrentUseString
