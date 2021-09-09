@@ -21,8 +21,9 @@
         </ComboBox>
         <ComboBox x:Name="FilterNameComboBox" Margin="533,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" Height="36"
                   SelectionChanged="FilterNameComboBox_SelectionChanged" IsEnabled="True" SelectedIndex="0"/>
-        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="767,28,0,0" VerticalAlignment="Top" Height="36" Width="359">
+        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="767,28,0,0" VerticalAlignment="Top" Height="36" Width="420">
             For issues, please e-mail Brian Anderson @ b5anderson@health.ucsd.edu
+            Thank you to Emily for help in program creation.
         </TextBlock>
     </Grid>
 </Window>
