@@ -23,10 +23,11 @@ namespace SterillizationTracking.Services
             int counter = 0;
             for (int i = 1; i < 999; i ++)
             {
-                string new_directory = Path.Combine(kit_directory, $"Kit {i}");
+                string string_kit_number = i.ToString("D2");
+                string new_directory = Path.Combine(kit_directory, $"Kit {string_kit_number}");
                 if (!kit_inventory_list.Contains(new_directory))
                 {
-                    out_list.Add($"{i}");
+                    out_list.Add(string_kit_number);
                     counter += 1;
                     if (counter == 5)
                     {
