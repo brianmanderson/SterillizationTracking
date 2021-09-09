@@ -16,6 +16,7 @@ namespace SterillizationTracking.Kit_Classes
     {
         private int currentUse;
         private List<string> usageDates = new List<string>();
+        private List<string> usageSinceReorder = new List<string>();
         private string currentUse_string, usesLeft_string;
         private System.Windows.Media.Brush statusColor;
         private string name;
@@ -41,6 +42,18 @@ namespace SterillizationTracking.Kit_Classes
             {
                 usageDates = value;
                 OnPropertyChanged("UsageDates");
+            }
+        }
+        public List<string> UsageSinceReorder
+        {
+            get
+            {
+                return usageSinceReorder;
+            }
+            set
+            {
+                usageSinceReorder = value;
+                OnPropertyChanged("UsageSinceReorder");
             }
         }
         public string CurrentUseString
@@ -170,7 +183,7 @@ namespace SterillizationTracking.Kit_Classes
             DateTime moment = DateTime.Now;
             Present = (moment.ToLongDateString() + " " + moment.ToLongTimeString()).Replace(":", ".");
             string file_path = Path.Combine(ReorderDirectoryPath, Present.Replace(":", ".") + ".txt");
-            File.Create(file_path);
+            File.WriteAllLines(file_path, UsageDates);
         }
         public void update_file()
         {
@@ -290,12 +303,13 @@ namespace SterillizationTracking.Kit_Classes
 
         public void reorder(object sender, RoutedEventArgs e)
         {
+            create_reorder_file();
             CurrentUse = 0;
             CurrentUseString = $"Current use: {CurrentUse}";
             UsesLeft = total_uses - CurrentUse;
             UsesLeftString = $"Uses left: {UsesLeft}";
+            UsageDates = new List<string>();
             update_file();
-            create_reorder_file();
             check_status();
         }
 

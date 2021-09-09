@@ -248,7 +248,7 @@ namespace SterillizationTracking.Kit_Classes
             }
         }
 
-        public void create_reorder_file()
+        public void create_reorder_file_plastic()
         {
             ReorderDirectoryPath = Path.Combine(KitDirectoryPath, "Reorders");
             if (!Directory.Exists(ReorderDirectoryPath))
@@ -256,9 +256,21 @@ namespace SterillizationTracking.Kit_Classes
                 Directory.CreateDirectory(ReorderDirectoryPath);
             }
             DateTime moment = DateTime.Now;
-            Present = (moment.ToLongDateString() + " " + moment.ToLongTimeString()).Replace(":", ".");
+            Present = "Plastic_" + (moment.ToLongDateString() + " " + moment.ToLongTimeString()).Replace(":", ".");
             string file_path = Path.Combine(ReorderDirectoryPath, Present.Replace(":", ".") + ".txt");
-            File.Create(file_path);
+            File.WriteAllLines(file_path, UsageDates);
+        }
+        public void create_reorder_file_metal()
+        {
+            ReorderDirectoryPath = Path.Combine(KitDirectoryPath, "Reorders");
+            if (!Directory.Exists(ReorderDirectoryPath))
+            {
+                Directory.CreateDirectory(ReorderDirectoryPath);
+            }
+            DateTime moment = DateTime.Now;
+            Present = "Metal_" + (moment.ToLongDateString() + " " + moment.ToLongTimeString()).Replace(":", ".");
+            string file_path = Path.Combine(ReorderDirectoryPath, Present.Replace(":", ".") + ".txt");
+            File.WriteAllLines(file_path, UsageDates);
         }
         public void update_file()
         {
@@ -316,18 +328,19 @@ namespace SterillizationTracking.Kit_Classes
 
         public void reorder_metal(object sender, RoutedEventArgs e)
         {
+            create_reorder_file_metal();
             CurrentUseMetal = 0;
+            UsageDates = new List<string>();
             update_useage();
             update_file();
-            create_reorder_file();
             check_status();
         }
         public void reorder_plastic(object sender, RoutedEventArgs e)
         {
+            create_reorder_file_plastic();
             CurrentUsePlastic = 0;
             update_useage();
             update_file();
-            create_reorder_file();
             check_status();
         }
 
