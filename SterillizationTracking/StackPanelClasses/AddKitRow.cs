@@ -21,6 +21,7 @@ namespace SterillizationTracking.StackPanelClasses
         public Button add_use_button, remove_use_button, reorder_button;
         public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label, last_updated;
         public CheckBox override_checkbox;
+        public TextBox text_box;
 
         public AddKitRow(BaseOnePartKit new_kit)
         {
@@ -35,6 +36,11 @@ namespace SterillizationTracking.StackPanelClasses
             kit_label.SetBinding(Label.ContentProperty, label_binding);
             kit_label.Padding = new Thickness(10);
             Children.Add(kit_label);
+
+            text_box = new TextBox();
+            text_box.Width = 150;
+            text_box.IsReadOnly = true;
+            Children.Add(text_box);
 
             kit_number_label = new Label();
             Binding kit_number_label_binding = new Binding("KitNumber");
@@ -137,6 +143,7 @@ namespace SterillizationTracking.StackPanelClasses
                 add_use_button.IsEnabled = true;
                 remove_use_button.IsEnabled = true;
                 reorder_button.IsEnabled = true;
+                text_box.IsReadOnly = false;
             }
         }
     }
