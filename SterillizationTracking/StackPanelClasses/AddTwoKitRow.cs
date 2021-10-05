@@ -22,6 +22,7 @@ namespace SterillizationTracking.StackPanelClasses
         public Label current_use_metal_label, current_use_plastic_label, kit_label, kit_number_label, override_label, last_updated, description_label;
         public CheckBox override_checkbox;
         public StackPanel current_use_stackpanel;
+        public TextBox text_box;
 
         public AddTwoKitRow(BaseTwoPartKit new_kit)
         {
@@ -39,22 +40,24 @@ namespace SterillizationTracking.StackPanelClasses
             kit_label.Padding = new Thickness(10);
             Children.Add(kit_label);
 
-            description_label = new Label();
-            Binding description_binding = new Binding(path: "Description");
-            description_binding.Mode = BindingMode.TwoWay;
-            description_binding.Source = new_kit;
-            description_binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            // text_box.Text = new_kit.Description;
-            description_label.SetBinding(Label.ContentProperty, description_binding);
-            description_label.Width = 150;
-            Children.Add(description_label);
-
             kit_number_label = new Label();
             Binding kit_number_label_binding = new Binding("KitNumber");
             kit_number_label_binding.Source = new_kit;
             kit_number_label.SetBinding(Label.ContentProperty, kit_number_label_binding);
             kit_number_label.Padding = new Thickness(10);
             Children.Add(kit_number_label);
+
+
+            text_box = new TextBox();
+            Binding description_binding = new Binding(path: "Description");
+            description_binding.Mode = BindingMode.TwoWay;
+            description_binding.Source = new_kit;
+            description_binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            text_box.SetBinding(TextBox.TextProperty, description_binding);
+            text_box.Width = 150;
+            text_box.Padding = new Thickness(10);
+            text_box.IsReadOnly = true;
+            Children.Add(text_box);
 
             current_use_stackpanel = new StackPanel();
             current_use_stackpanel.Orientation = Orientation.Vertical;
@@ -162,6 +165,8 @@ namespace SterillizationTracking.StackPanelClasses
             override_checkbox = new CheckBox();
             override_checkbox.Padding = new Thickness(10);
             override_checkbox.Checked += CheckBox_Checked;
+            override_checkbox.Unchecked += CheckBox_UnChecked;
+            override_checkbox.Unchecked += new_kit.update;
             Children.Add(override_checkbox);
 
             last_updated = new Label();
@@ -198,7 +203,13 @@ namespace SterillizationTracking.StackPanelClasses
                 remove_use_button.IsEnabled = true;
                 reorder_metal_button.IsEnabled = true;
                 reorder_plastic_button.IsEnabled = true;
+                text_box.IsReadOnly = false;
             }
+        }
+        private void CheckBox_UnChecked(object sender, RoutedEventArgs e)
+        {
+            remove_use_button.IsEnabled = false;
+            text_box.IsReadOnly = true;
         }
     }
 }

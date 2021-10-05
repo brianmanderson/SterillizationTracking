@@ -37,22 +37,23 @@ namespace SterillizationTracking.StackPanelClasses
             kit_label.Padding = new Thickness(10);
             Children.Add(kit_label);
 
-            description_label = new Label();
-            Binding description_binding = new Binding(path: "Description");
-            description_binding.Mode = BindingMode.TwoWay;
-            description_binding.Source = new_kit;
-            description_binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            // text_box.Text = new_kit.Description;
-            description_label.SetBinding(Label.ContentProperty, description_binding);
-            description_label.Width = 150;
-            Children.Add(description_label);
-
             kit_number_label = new Label();
             Binding kit_number_label_binding = new Binding("KitNumber");
             kit_number_label_binding.Source = new_kit;
             kit_number_label.SetBinding(Label.ContentProperty, kit_number_label_binding);
             kit_number_label.Padding = new Thickness(10);
             Children.Add(kit_number_label);
+
+            text_box = new TextBox();
+            Binding description_binding = new Binding(path: "Description");
+            description_binding.Mode = BindingMode.TwoWay;
+            description_binding.Source = new_kit;
+            description_binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            text_box.SetBinding(TextBox.TextProperty, description_binding);
+            text_box.Width = 150;
+            text_box.Padding = new Thickness(10);
+            text_box.IsReadOnly = true;
+            Children.Add(text_box);
 
             current_use_label = new Label();
             current_use_label.Width = 150;

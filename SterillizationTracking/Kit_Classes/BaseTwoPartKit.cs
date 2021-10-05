@@ -361,7 +361,10 @@ namespace SterillizationTracking.Kit_Classes
             update_file();
             check_status();
         }
-
+        public void update(object sender, RoutedEventArgs e)
+        {
+            update_file();
+        }
         public void check_status()
         {
             if (CurrentUseMetal >= total_uses_metal)
