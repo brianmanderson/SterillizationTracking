@@ -38,8 +38,13 @@ namespace SterillizationTracking.StackPanelClasses
             Children.Add(kit_label);
 
             text_box = new TextBox();
-            text_box.Width = 150;
             text_box.IsReadOnly = true;
+            Binding text_box_binding = new Binding(path: "Description");
+            text_box_binding.Mode = BindingMode.TwoWay;
+            text_box_binding.Source = new_kit;
+            text_box.Text = new_kit.Description;
+            text_box.SetBinding(TextBlock.TextProperty, text_box_binding);
+            text_box.Width = 150;
             Children.Add(text_box);
 
             kit_number_label = new Label();
@@ -108,6 +113,8 @@ namespace SterillizationTracking.StackPanelClasses
             override_checkbox = new CheckBox();
             override_checkbox.Padding = new Thickness(10);
             override_checkbox.Checked += CheckBox_Checked;
+            override_checkbox.Unchecked += CheckBox_UnChecked;
+            override_checkbox.Unchecked += new_kit.update;
             Children.Add(override_checkbox);
 
             last_updated = new Label();
@@ -145,6 +152,11 @@ namespace SterillizationTracking.StackPanelClasses
                 reorder_button.IsEnabled = true;
                 text_box.IsReadOnly = false;
             }
+        }
+        private void CheckBox_UnChecked(object sender, RoutedEventArgs e)
+        {
+            remove_use_button.IsEnabled = false;
+            text_box.IsReadOnly = true;
         }
     }
 }
