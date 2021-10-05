@@ -50,6 +50,7 @@ namespace SterillizationTracking.StackPanelClasses
             description_binding.Source = new_kit;
             description_binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             text_box.SetBinding(TextBox.TextProperty, description_binding);
+            text_box.LostFocus += new_kit.update;
             text_box.Width = 150;
             text_box.Padding = new Thickness(10);
             text_box.IsReadOnly = true;

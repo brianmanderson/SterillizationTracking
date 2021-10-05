@@ -33,7 +33,7 @@ namespace SterillizationTracking
         private List<string> _filter_kit_names = new List<string> { "All applicators", "Cylinder", "Cervix Applicator Set", "Needle Kit", "Segmented Cylinder",
             "Tandem and Ovoid", "Tandem and Ring", "Y Applicator"};
 
-        public string applicator_directory = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking";  // 
+        public string applicator_directory = @"K:\Testing\Kit_Status";  // @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status"
         public string kit_name;
         public string kit_number;
         public List<string> Kit_Numbers
