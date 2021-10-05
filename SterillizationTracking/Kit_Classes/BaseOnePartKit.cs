@@ -98,6 +98,7 @@ namespace SterillizationTracking.Kit_Classes
             warning_uses = 80;
             total_uses = 100;
             CanReorder = false;
+            Description = "";
             if (name == "Cylinder")
             {
                 total_uses = 500;
@@ -112,6 +113,7 @@ namespace SterillizationTracking.Kit_Classes
             {
                 total_uses = 25;
                 warning_uses = 18;
+                Description = "10 SS";
             }
             else if (name == "Segmented Cylinder")
             {
@@ -151,8 +153,7 @@ namespace SterillizationTracking.Kit_Classes
             else
             {
                 CurrentUse = 0;
-                Description = "";
-                string[] info ={ "Description:", $"Current Use:{0}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
+                string[] info ={ $"Description:{Description}", $"Current Use:{0}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
                 if (!Directory.Exists(KitDirectoryPath))
                 {
                     Directory.CreateDirectory(KitDirectoryPath);

@@ -19,7 +19,7 @@ namespace SterillizationTracking.StackPanelClasses
     class AddKitRow : StackPanel
     {
         public Button add_use_button, remove_use_button, reorder_button;
-        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label, last_updated;
+        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label, last_updated, description_label;
         public CheckBox override_checkbox;
         public TextBox text_box;
 
@@ -37,15 +37,15 @@ namespace SterillizationTracking.StackPanelClasses
             kit_label.Padding = new Thickness(10);
             Children.Add(kit_label);
 
-            text_box = new TextBox();
-            text_box.IsReadOnly = true;
-            Binding text_box_binding = new Binding(path: "Description");
-            text_box_binding.Mode = BindingMode.TwoWay;
-            text_box_binding.Source = new_kit;
-            text_box.Text = new_kit.Description;
-            text_box.SetBinding(TextBlock.TextProperty, text_box_binding);
-            text_box.Width = 150;
-            Children.Add(text_box);
+            description_label = new Label();
+            Binding description_binding = new Binding(path: "Description");
+            description_binding.Mode = BindingMode.TwoWay;
+            description_binding.Source = new_kit;
+            description_binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            // text_box.Text = new_kit.Description;
+            description_label.SetBinding(Label.ContentProperty, description_binding);
+            description_label.Width = 150;
+            Children.Add(description_label);
 
             kit_number_label = new Label();
             Binding kit_number_label_binding = new Binding("KitNumber");
