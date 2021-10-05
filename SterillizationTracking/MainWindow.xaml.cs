@@ -105,7 +105,7 @@ namespace SterillizationTracking
         {
             if (kit_name.Contains("Tandem and Ring") || kit_name.Contains("Y Applicator"))
             {
-                BaseTwoPartKit new_kit = new BaseTwoPartKit(name: kit_name, kitnumber: kit_number);
+                BaseTwoPartKit new_kit = new BaseTwoPartKit(name: kit_name, kitnumber: kit_number, file_path: file_path);
                 AddTwoKitRow new_row = new AddTwoKitRow(new_kit);
                 KitStackPanel.Children.Add(new_row);
             }
@@ -204,7 +204,7 @@ namespace SterillizationTracking
             {
                 KitNumber_ComboBox.IsEnabled = true;
                 CheckNumberList number_returner = new CheckNumberList();
-                Kit_Numbers = number_returner.return_list(kit_name);
+                Kit_Numbers = number_returner.return_list(kit_name: kit_name, file_path: applicator_directory);
                 KitNumber_ComboBox.SelectedIndex = 0;
             }
         }

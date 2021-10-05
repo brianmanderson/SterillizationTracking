@@ -9,9 +9,8 @@ namespace SterillizationTracking.Services
 {
     class CheckNumberList
     {
-        public string file_path = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";
         public List<string> out_list;
-        public List<string> return_list(string kit_name)
+        public List<string> return_list(string kit_name, string file_path)
         {
             out_list = new List<String> { "Select a number"};
             string kit_directory = Path.Combine(file_path, kit_name);
