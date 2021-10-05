@@ -24,13 +24,12 @@ namespace SterillizationTracking.Kit_Classes
         private string _present;
         private bool can_reorder_metal, canAdd;
         private bool can_reorder_plastic;
-        private string currentUse_string_metal, currentUse_string_plastic, usesLeft_string_metal, usesLeft_string_plastic;
+        private string currentUse_string_metal, currentUse_string_plastic, usesLeft_string_metal, usesLeft_string_plastic, description;
 
         public int total_uses_metal;
         public int total_uses_plastic;
         public int warning_uses_metal;
         public int warning_uses_plastic;
-        public string file_path = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";
         public string KitDirectoryPath;
         public string ReorderDirectoryPath;
 
@@ -99,6 +98,15 @@ namespace SterillizationTracking.Kit_Classes
             {
                 usesLeft_string_metal = value;
                 OnPropertyChanged("UsesLeftMetal");
+            }
+        }
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                description = value;
+                OnPropertyChanged("Description");
             }
         }
         public string UsesLeftPlastic
@@ -182,7 +190,7 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("StatusColor_Plastic");
             }
         }
-        public BaseTwoPartKit(string name, string kitnumber) //string name, int allowed_steralizaitons, int warning_use
+        public BaseTwoPartKit(string name, string kitnumber, string file_path) //string name, int allowed_steralizaitons, int warning_use
         {
             Name = name;
             StatusColor_Metal = statusColor_Metal;
@@ -199,6 +207,15 @@ namespace SterillizationTracking.Kit_Classes
             CanReorderPlastic = false;
             CanAdd = true;
             UsageDates = new List<string>();
+            Description = "";
+            if (name.Contains("Y Applicator"))
+            {
+                Description = "13 Pieces";
+            }
+            else if (name.Contains("Tandem and Ring"))
+            {
+                Description = "15 Pieces";
+            }
             build_read_use_file();
         }
 
@@ -207,16 +224,17 @@ namespace SterillizationTracking.Kit_Classes
             if (File.Exists(UseFileLocation))
             {
                 List<string> lines = File.ReadAllLines(UseFileLocation).ToList();
-                CurrentUseMetal = Convert.ToInt32(lines[0].Split("Current Use_Metal:")[1]);
-                CurrentUsePlastic = Convert.ToInt32(lines[1].Split("Current Use_Plastic:")[1]);
-                total_uses_metal = Convert.ToInt32(lines[2].Split("Total Uses_Metal:")[1]);
-                total_uses_plastic = Convert.ToInt32(lines[3].Split("Total Uses_Plastic:")[1]);
-                warning_uses_metal = Convert.ToInt32(lines[4].Split("Warning Uses_Metal:")[1]);
-                warning_uses_plastic = Convert.ToInt32(lines[5].Split("Warning Uses_Plastic:")[1]);
-                Present = lines[6].Split("updated:")[1];
-                if (lines.Count > 7)
+                Description = lines[0].Split("Description:")[1];
+                CurrentUseMetal = Convert.ToInt32(lines[1].Split("Current Use_Metal:")[1]);
+                CurrentUsePlastic = Convert.ToInt32(lines[2].Split("Current Use_Plastic:")[1]);
+                total_uses_metal = Convert.ToInt32(lines[3].Split("Total Uses_Metal:")[1]);
+                total_uses_plastic = Convert.ToInt32(lines[4].Split("Total Uses_Plastic:")[1]);
+                warning_uses_metal = Convert.ToInt32(lines[5].Split("Warning Uses_Metal:")[1]);
+                warning_uses_plastic = Convert.ToInt32(lines[6].Split("Warning Uses_Plastic:")[1]);
+                Present = lines[7].Split("updated:")[1];
+                if (lines.Count > 8)
                 {
-                    UsageDates = lines.GetRange(7, lines.Count - 7);
+                    UsageDates = lines.GetRange(8, lines.Count - 8);
                 }
                 else
                 {
@@ -227,7 +245,7 @@ namespace SterillizationTracking.Kit_Classes
             {
                 CurrentUseMetal = 0;
                 CurrentUsePlastic = 0;
-                string[] info = { $"Current Use_Metal:{0}", $"Current Use_Plastic:{0}", $"Total Uses_Metal:{total_uses_metal}",
+                string[] info = { $"Description:{Description}", $"Current Use_Metal:{0}", $"Current Use_Plastic:{0}", $"Total Uses_Metal:{total_uses_metal}",
                     $"Total Uses_Plastic:{total_uses_plastic}", $"Warning Uses_Metal:{warning_uses_metal}", $"Warning Uses_Plastic:{warning_uses_plastic}",
                     $"Last updated:{Present}" };
                 if (!Directory.Exists(KitDirectoryPath))
@@ -274,7 +292,7 @@ namespace SterillizationTracking.Kit_Classes
         }
         public void update_file()
         {
-            List<string> info = new List<string>() { $"Current Use_Metal:{CurrentUseMetal}", $"Current Use_Plastic:{CurrentUsePlastic}", $"Total Uses_Metal:{total_uses_metal}",
+            List<string> info = new List<string>() {$"Description:{Description}", $"Current Use_Metal:{CurrentUseMetal}", $"Current Use_Plastic:{CurrentUsePlastic}", $"Total Uses_Metal:{total_uses_metal}",
                     $"Total Uses_Plastic:{total_uses_plastic}", $"Warning Uses_Metal:{warning_uses_metal}", $"Warning Uses_Plastic:{warning_uses_plastic}",
                     $"Last updated:{Present}" };
             info.AddRange(UsageDates);
@@ -343,7 +361,10 @@ namespace SterillizationTracking.Kit_Classes
             update_file();
             check_status();
         }
-
+        public void update(object sender, RoutedEventArgs e)
+        {
+            update_file();
+        }
         public void check_status()
         {
             if (CurrentUseMetal >= total_uses_metal)

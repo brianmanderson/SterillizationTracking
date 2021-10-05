@@ -33,7 +33,7 @@ namespace SterillizationTracking
         private List<string> _filter_kit_names = new List<string> { "All applicators", "Cylinder", "Cervix Applicator Set", "Needle Kit", "Segmented Cylinder",
             "Tandem and Ovoid", "Tandem and Ring", "Y Applicator"};
 
-        public string applicator_directory = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";
+        public string applicator_directory = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";  //
         public string kit_name;
         public string kit_number;
         public List<string> Kit_Numbers
@@ -101,17 +101,17 @@ namespace SterillizationTracking
             }
         }
 
-        public void Add_Kit(string kit_name, string kit_number)
+        public void Add_Kit(string kit_name, string kit_number, string file_path)
         {
             if (kit_name.Contains("Tandem and Ring") || kit_name.Contains("Y Applicator"))
             {
-                BaseTwoPartKit new_kit = new BaseTwoPartKit(name: kit_name, kitnumber: kit_number);
+                BaseTwoPartKit new_kit = new BaseTwoPartKit(name: kit_name, kitnumber: kit_number, file_path: file_path);
                 AddTwoKitRow new_row = new AddTwoKitRow(new_kit);
                 KitStackPanel.Children.Add(new_row);
             }
             else
             {
-                BaseOnePartKit new_kit = new BaseOnePartKit(name: kit_name, kitnumber: kit_number);
+                BaseOnePartKit new_kit = new BaseOnePartKit(name: kit_name, kitnumber: kit_number, file_path: file_path);
                 AddKitRow new_row = new AddKitRow(new_kit);
                 KitStackPanel.Children.Add(new_row);
             }
@@ -121,7 +121,7 @@ namespace SterillizationTracking
         {
             kit_name = Kit_Names[Kit_ComboBox.SelectedIndex];
             kit_number = Kit_Numbers[KitNumber_ComboBox.SelectedIndex];
-            Add_Kit(kit_name: kit_name, kit_number: kit_number);
+            Add_Kit(kit_name: kit_name, kit_number: kit_number, file_path: applicator_directory);
             Kit_ComboBox.SelectedIndex = 0;
         }
 
@@ -147,7 +147,7 @@ namespace SterillizationTracking
                         if (directory_kit_number.Contains("Kit"))
                         {
                             actual_kit_number = directory_kit_number.Split(' ')[1];
-                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number);
+                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number, file_path: applicator_directory);
                         }
                     }
                 }
@@ -181,7 +181,7 @@ namespace SterillizationTracking
                         if (directory_kit_number.Contains("Kit"))
                         {
                             actual_kit_number = directory_kit_number.Split(' ')[1];
-                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number);
+                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number, file_path: applicator_directory);
                         }
                     }
                 }
@@ -204,7 +204,7 @@ namespace SterillizationTracking
             {
                 KitNumber_ComboBox.IsEnabled = true;
                 CheckNumberList number_returner = new CheckNumberList();
-                Kit_Numbers = number_returner.return_list(kit_name);
+                Kit_Numbers = number_returner.return_list(kit_name: kit_name, file_path: applicator_directory);
                 KitNumber_ComboBox.SelectedIndex = 0;
             }
         }

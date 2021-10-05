@@ -19,8 +19,9 @@ namespace SterillizationTracking.StackPanelClasses
     class AddKitRow : StackPanel
     {
         public Button add_use_button, remove_use_button, reorder_button;
-        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label, last_updated;
+        public Label current_use_label, kit_label, kit_number_label, override_label, status_label, uses_left_label, last_updated, description_label;
         public CheckBox override_checkbox;
+        public TextBox text_box;
 
         public AddKitRow(BaseOnePartKit new_kit)
         {
@@ -42,6 +43,18 @@ namespace SterillizationTracking.StackPanelClasses
             kit_number_label.SetBinding(Label.ContentProperty, kit_number_label_binding);
             kit_number_label.Padding = new Thickness(10);
             Children.Add(kit_number_label);
+
+            text_box = new TextBox();
+            Binding description_binding = new Binding(path: "Description");
+            description_binding.Mode = BindingMode.TwoWay;
+            description_binding.Source = new_kit;
+            description_binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            text_box.SetBinding(TextBox.TextProperty, description_binding);
+            text_box.LostFocus += new_kit.update;
+            text_box.Width = 150;
+            text_box.Padding = new Thickness(10);
+            text_box.IsReadOnly = true;
+            Children.Add(text_box);
 
             current_use_label = new Label();
             current_use_label.Width = 150;
@@ -102,6 +115,8 @@ namespace SterillizationTracking.StackPanelClasses
             override_checkbox = new CheckBox();
             override_checkbox.Padding = new Thickness(10);
             override_checkbox.Checked += CheckBox_Checked;
+            override_checkbox.Unchecked += CheckBox_UnChecked;
+            override_checkbox.Unchecked += new_kit.update;
             Children.Add(override_checkbox);
 
             last_updated = new Label();
@@ -137,7 +152,13 @@ namespace SterillizationTracking.StackPanelClasses
                 add_use_button.IsEnabled = true;
                 remove_use_button.IsEnabled = true;
                 reorder_button.IsEnabled = true;
+                text_box.IsReadOnly = false;
             }
+        }
+        private void CheckBox_UnChecked(object sender, RoutedEventArgs e)
+        {
+            remove_use_button.IsEnabled = false;
+            text_box.IsReadOnly = true;
         }
     }
 }

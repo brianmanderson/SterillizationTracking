@@ -16,7 +16,7 @@ namespace SterillizationTracking.Kit_Classes
     {
         private int currentUse;
         private List<string> usageDates = new List<string>();
-        private string currentUse_string, usesLeft_string;
+        private string currentUse_string, usesLeft_string, description;
         private System.Windows.Media.Brush statusColor;
         private string name;
         private string kitnumber;
@@ -27,7 +27,6 @@ namespace SterillizationTracking.Kit_Classes
 
         public int total_uses;
         public int warning_uses;
-        public string file_path = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";
         public string KitDirectoryPath;
         public string ReorderDirectoryPath;
 
@@ -61,6 +60,15 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("UsesLeftString");
             }
         }
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                description = value;
+                OnPropertyChanged("Description");
+            }
+        }
         public string Present
         {
             get { return _present; }
@@ -79,7 +87,7 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("CanAdd");
             }
         }
-        public BaseOnePartKit(string name, string kitnumber) //string name, int allowed_steralizaitons, int warning_use
+        public BaseOnePartKit(string name, string kitnumber, string file_path) //string name, int allowed_steralizaitons, int warning_use
         {
             Name = name;
             StatusColor = statusColor;
@@ -90,13 +98,16 @@ namespace SterillizationTracking.Kit_Classes
             warning_uses = 80;
             total_uses = 100;
             CanReorder = false;
+            Description = "";
             if (name == "Cylinder")
             {
                 total_uses = 500;
                 warning_uses = 450;
+                Description = "18 Pieces";
             }
             else if (name == "Tandem and Ovoid")
             {
+                Description = "18 Pieces";
                 total_uses = 100;
                 warning_uses = 80;
             }
@@ -104,6 +115,7 @@ namespace SterillizationTracking.Kit_Classes
             {
                 total_uses = 25;
                 warning_uses = 18;
+                Description = "Count: 10, 20 Pieces";
             }
             else if (name == "Segmented Cylinder")
             {
@@ -112,6 +124,7 @@ namespace SterillizationTracking.Kit_Classes
             }
             else if (name == "Cervix Applicator Set")
             {
+                Description = "10 Pieces";
                 total_uses = 500;
                 warning_uses = 450;
             }
@@ -125,13 +138,14 @@ namespace SterillizationTracking.Kit_Classes
             if (File.Exists(UseFileLocation))
             {
                 List<string> lines = File.ReadAllLines(UseFileLocation).ToList();
-                CurrentUse = Convert.ToInt32(lines[0].Split("Use:")[1]);
-                total_uses = Convert.ToInt32(lines[1].Split("Uses:")[1]);
-                warning_uses = Convert.ToInt32(lines[2].Split("Uses:")[1]);
-                Present = lines[3].Split("updated:")[1];
-                if (lines.Count > 4)
+                Description = lines[0].Split("Description:")[1];
+                CurrentUse = Convert.ToInt32(lines[1].Split("Use:")[1]);
+                total_uses = Convert.ToInt32(lines[2].Split("Uses:")[1]);
+                warning_uses = Convert.ToInt32(lines[3].Split("Uses:")[1]);
+                Present = lines[4].Split("updated:")[1];
+                if (lines.Count > 5)
                 {
-                    UsageDates = lines.GetRange(4, lines.Count - 4);
+                    UsageDates = lines.GetRange(5, lines.Count - 5);
                 }
                 else
                 {
@@ -142,7 +156,7 @@ namespace SterillizationTracking.Kit_Classes
             else
             {
                 CurrentUse = 0;
-                string[] info ={ $"Current Use:{0}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
+                string[] info ={ $"Description:{Description}", $"Current Use:{0}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
                 if (!Directory.Exists(KitDirectoryPath))
                 {
                     Directory.CreateDirectory(KitDirectoryPath);
@@ -174,7 +188,8 @@ namespace SterillizationTracking.Kit_Classes
         }
         public void update_file()
         {
-            List<string> info = new List<string>() { $"Current Use:{CurrentUse}", $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
+            List<string> info = new List<string>() { $"Description:{Description}", $"Current Use:{CurrentUse}",
+                $"Total Uses:{total_uses}", $"Warning Uses:{warning_uses}", $"Last updated:{Present}" };
             info.AddRange(UsageDates);
             if (!Directory.Exists(KitDirectoryPath))
             {
@@ -288,6 +303,10 @@ namespace SterillizationTracking.Kit_Classes
             check_status();
         }
 
+        public void update(object sender, RoutedEventArgs e)
+        {
+            update_file();
+        }
         public void reorder(object sender, RoutedEventArgs e)
         {
             create_reorder_file();
