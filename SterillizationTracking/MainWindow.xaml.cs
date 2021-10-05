@@ -101,7 +101,7 @@ namespace SterillizationTracking
             }
         }
 
-        public void Add_Kit(string kit_name, string kit_number)
+        public void Add_Kit(string kit_name, string kit_number, string file_path)
         {
             if (kit_name.Contains("Tandem and Ring") || kit_name.Contains("Y Applicator"))
             {
@@ -111,7 +111,7 @@ namespace SterillizationTracking
             }
             else
             {
-                BaseOnePartKit new_kit = new BaseOnePartKit(name: kit_name, kitnumber: kit_number);
+                BaseOnePartKit new_kit = new BaseOnePartKit(name: kit_name, kitnumber: kit_number, file_path: file_path);
                 AddKitRow new_row = new AddKitRow(new_kit);
                 KitStackPanel.Children.Add(new_row);
             }
@@ -121,7 +121,7 @@ namespace SterillizationTracking
         {
             kit_name = Kit_Names[Kit_ComboBox.SelectedIndex];
             kit_number = Kit_Numbers[KitNumber_ComboBox.SelectedIndex];
-            Add_Kit(kit_name: kit_name, kit_number: kit_number);
+            Add_Kit(kit_name: kit_name, kit_number: kit_number, file_path: applicator_directory);
             Kit_ComboBox.SelectedIndex = 0;
         }
 
@@ -147,7 +147,7 @@ namespace SterillizationTracking
                         if (directory_kit_number.Contains("Kit"))
                         {
                             actual_kit_number = directory_kit_number.Split(' ')[1];
-                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number);
+                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number, file_path: applicator_directory);
                         }
                     }
                 }
@@ -181,7 +181,7 @@ namespace SterillizationTracking
                         if (directory_kit_number.Contains("Kit"))
                         {
                             actual_kit_number = directory_kit_number.Split(' ')[1];
-                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number);
+                            Add_Kit(kit_name: applicator_name, kit_number: actual_kit_number, file_path: applicator_directory);
                         }
                     }
                 }

@@ -30,7 +30,6 @@ namespace SterillizationTracking.Kit_Classes
         public int total_uses_plastic;
         public int warning_uses_metal;
         public int warning_uses_plastic;
-        public string file_path = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";
         public string KitDirectoryPath;
         public string ReorderDirectoryPath;
 
@@ -182,7 +181,7 @@ namespace SterillizationTracking.Kit_Classes
                 OnPropertyChanged("StatusColor_Plastic");
             }
         }
-        public BaseTwoPartKit(string name, string kitnumber) //string name, int allowed_steralizaitons, int warning_use
+        public BaseTwoPartKit(string name, string kitnumber, string file_path) //string name, int allowed_steralizaitons, int warning_use
         {
             Name = name;
             StatusColor_Metal = statusColor_Metal;
