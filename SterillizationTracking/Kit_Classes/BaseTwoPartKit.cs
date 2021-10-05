@@ -208,6 +208,14 @@ namespace SterillizationTracking.Kit_Classes
             CanAdd = true;
             UsageDates = new List<string>();
             Description = "";
+            if (name.Contains("Y Applicator"))
+            {
+                Description = "13 Pieces";
+            }
+            else if (name.Contains("Tandem and Ring"))
+            {
+                Description = "15 Pieces";
+            }
             build_read_use_file();
         }
 

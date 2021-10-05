@@ -103,9 +103,11 @@ namespace SterillizationTracking.Kit_Classes
             {
                 total_uses = 500;
                 warning_uses = 450;
+                Description = "18 Pieces";
             }
             else if (name == "Tandem and Ovoid")
             {
+                Description = "18 Pieces";
                 total_uses = 100;
                 warning_uses = 80;
             }
@@ -113,7 +115,7 @@ namespace SterillizationTracking.Kit_Classes
             {
                 total_uses = 25;
                 warning_uses = 18;
-                Description = "10 SS";
+                Description = "Count: 10, 20 Pieces";
             }
             else if (name == "Segmented Cylinder")
             {
@@ -122,6 +124,7 @@ namespace SterillizationTracking.Kit_Classes
             }
             else if (name == "Cervix Applicator Set")
             {
+                Description = "10 Pieces";
                 total_uses = 500;
                 warning_uses = 450;
             }
@@ -285,7 +288,6 @@ namespace SterillizationTracking.Kit_Classes
             UsesLeft = total_uses - CurrentUse;
             UsesLeftString = $"Uses left: {UsesLeft}";
             UsageDates.Add($"{CurrentUse}: {Present}");
-            Description = "Test";
             update_file();
             check_status();
         }
