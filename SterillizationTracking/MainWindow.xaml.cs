@@ -33,7 +33,7 @@ namespace SterillizationTracking
         private List<string> _filter_kit_names = new List<string> { "All applicators", "Cylinder", "Cervix Applicator Set", "Needle Kit", "Segmented Cylinder",
             "Tandem and Ovoid", "Tandem and Ring", "Y Applicator"};
 
-        public string applicator_directory = @"\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status";  //
+        public string applicator_directory = @"\\ad.ucsd.edu\ahs\CANC\RADONC\HDR\Kit_Status";  //\\ucsdhc-varis2\radonc$\HDR updates\Steralization_Kits_Tracking\Kit_Status
         public string kit_name;
         public string kit_number;
         public List<string> Kit_Numbers
@@ -74,6 +74,10 @@ namespace SterillizationTracking
         public MainWindow()
         {
             InitializeComponent();
+            if (!Directory.Exists(applicator_directory))
+            {
+                Directory.CreateDirectory(applicator_directory);
+            }
             Rebuild_From_Files();
             Binding number_binding = new Binding("Kit_Numbers");
             number_binding.Source = this;
